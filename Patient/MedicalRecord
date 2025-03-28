@@ -1,0 +1,51 @@
+public class MedicalRecord {
+    private String recordId;
+    private Patient patient;
+    private Doctor doctor;
+    private String date;
+    private String diagnosis;
+    private String treatment;
+    private String prescription;
+    private String notes;
+    private String followUpDate;
+
+    // Constructor
+    public MedicalRecord(String recordId, Patient patient, Doctor doctor, String date, String diagnosis,
+                         String treatment, String prescription, String notes, String followUpDate) {
+        this.recordId = recordId;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.date = date;
+        this.diagnosis = diagnosis;
+        this.treatment = treatment;
+        this.prescription = prescription;
+        this.notes = notes;
+        this.followUpDate = followUpDate;
+    }
+
+    // Getters
+    public String getRecordId() { 
+        return recordId; 
+    }
+    public Patient getPatient() { 
+        return patient; 
+    }
+    public Doctor getDoctor() { 
+        return doctor; 
+    }
+    public String getDate() {
+         return date; 
+    }
+    public String getDiagnosis() { 
+        return diagnosis; 
+    }
+    public String getTreatment() { 
+        return treatment; 
+    }
+    public String getPrescription() { 
+        return prescription; 
+    }
+    public String getFollowUpDate() {
+         return followUpDate; 
+    }
+}
