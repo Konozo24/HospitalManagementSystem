@@ -1,0 +1,55 @@
+public class Appointment {
+    private String appointmentId;
+    private Patient patient;
+    private Doctor doctor;
+    private String date;
+    private String time;
+    private String consultationRoom;
+    private String purpose;
+    private String status;  // Example: "Scheduled", "Completed", "Cancelled"
+
+    // Constructor
+    public Appointment(String appointmentId, Patient patient, Doctor doctor, String date, String time,
+                       String consultationRoom, String purpose, String status) {
+        this.appointmentId = appointmentId;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.date = date;
+        this.time = time;
+        this.consultationRoom = consultationRoom;
+        this.purpose = purpose;
+        this.status = status;
+    }
+
+    // Getters and Setters
+    public String getAppointmentId() { 
+        return appointmentId; 
+    }
+    public Patient getPatient() { 
+        return patient; 
+    }
+    public Doctor getDoctor() { 
+        return doctor; 
+    }
+    public String getDate() { 
+        return date; 
+    }
+    public String getTime() {
+         return time; 
+    }
+    public String getPurpose() { 
+        return purpose; 
+    }
+    public String getStatus() { 
+        return status; 
+    }
+
+    // Methods to update status
+    public void completeAppointment() {
+        this.status = "Completed";
+    }
+
+    public void cancelAppointment() {
+        this.status = "Cancelled";
+    }
+}
