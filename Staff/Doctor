@@ -1,29 +1,53 @@
 import java.util.ArrayList;
 
-class Doctor extends MedicalProfessional {
+public class Doctor extends MedicalProfessional {
     private String specialization;
     private int yearsOfExperience;
-    private ArrayList<String> patients;
+    private ArrayList<Patient> patientList;
+    private ArrayList<Appointment> appointments;
 
-    public Doctor(String id, String name, int age, String gender, String employeeId, double salary, String department, String qualification, String specialization, int yearsOfExperience) {
-        super(id, name, age, gender, employeeId, salary, department, qualification);
+    // Constructor
+    public Doctor(String id, String name, int age, String gender, 
+                  String employeeId, double salary, String joinDate, 
+                  String department, String qualification, 
+                  String specialization, int yearsOfExperience) {
+        super(id, name, age, gender, employeeId, salary, joinDate, department, qualification);
         this.specialization = specialization;
         this.yearsOfExperience = yearsOfExperience;
-        this.patients = new ArrayList<>();
+        this.patientList = new ArrayList<>();
+        this.appointments = new ArrayList<>();
     }
 
-    public void addPatient(String patientName) {
-        patients.add(patientName);
-    }
     public void removePatient(Patient patient) {
-        patients.remove(patient);
+        patientList.remove(patient);
     }
 
-    public String getRole() {
-        return "Doctor";
+    // Methods to manage appointments
+    public void addAppointment(Appointment appointment) {
+        if (!appointments.contains(appointment)) {
+            appointments.add(appointment);
+        }
     }
 
+    public void removeAppointment(Appointment appointment) {
+        appointments.remove(appointment);
+    }
+
+    // Method to return professional details
+    public String getProfessionalInfo() {
+        return "Doctor: " + getName() + 
+               "\nSpecialization: " + specialization + 
+               "\nExperience: " + yearsOfExperience + " years" + 
+               "\nPatients: " + patientList.size() + 
+               "\nAppointments: " + appointments.size();
+    }
+
+    // Override toString() for better output
+    @Override
     public String toString() {
-        return "Doctor: " + name + " | Specialization: " + specialization + " | Experience: " + yearsOfExperience + " years | Patients: " + patients;
+        return super.toString() + 
+               "\nSpecialization: " + specialization + 
+               "\nYears of Experience: " + yearsOfExperience + 
+               "\nTotal Patients: " + patientList.size();
     }
 }
