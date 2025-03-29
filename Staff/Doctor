@@ -1,26 +1,15 @@
-import java.util.ArrayList;
-
 class Doctor extends MedicalProfessional {
     private String specialization;
     private int yearsOfExperience;
-    private ArrayList<String> patients;
 
-    public Doctor(String id, String name, String address, String phoneNumber, String email, String emergencyContact, String dateOfBirth, char gender, String employeeId, double salary, String joinDate, String department, String qualification, String specialization, int yearsOfExperience) {
-        super(id, name, address, phoneNumber, email, emergencyContact, dateOfBirth, gender, employeeId, salary, joinDate, department, qualification);
+    public Doctor(String id, String name, int age, String gender, String employeeId, String department, double salary, String specialization, int yearsOfExperience) {
+        super(id, name, age, gender, employeeId, department, salary);
         this.specialization = specialization;
         this.yearsOfExperience = yearsOfExperience;
-        this.patients = new ArrayList<>();
     }
 
-    public void addPatient(String patientName) {
-        patients.add(patientName);
-    }
-
-    public String getRole() {
-        return "Doctor";
-    }
-
-    public String getDetails() {
-        return super.getDetails() + " | Specialization: " + specialization;
+    @Override
+    public String toString() {
+        return "Doctor: " + name + " | Specialization: " + specialization + " | Experience: " + yearsOfExperience + " years";
     }
 }
