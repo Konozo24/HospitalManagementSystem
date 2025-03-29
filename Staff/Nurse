@@ -8,12 +8,10 @@ class Nurse extends MedicalProfessional {
         this.duties = duties;
     }
 
-    @Override
     public String getRole() {
         return "Nurse";
     }
 
-    @Override
     public String getDetails() {
         return super.getDetails() + " | Assigned Doctor: " + assignedDoctor;
     }
