@@ -1,1 +1,16 @@
+class MedicalProfessional extends Person {
+    protected String employeeId, department, qualification;
+    protected double salary;
 
+    public MedicalProfessional(String id, String name, int age, String gender, String employeeId, double salary, String department, String qualification) {
+        super(id, name, age, gender);
+        this.employeeId = employeeId;
+        this.salary = salary;
+        this.department = department;
+        this.qualification = qualification;
+    }
+
+    public String getRole() {
+        return "Medical Professional";
+    }
+}
