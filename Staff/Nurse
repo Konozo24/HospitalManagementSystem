@@ -8,7 +8,6 @@ class Nurse extends MedicalProfessional {
         this.assignedDoctor = assignedDoctor;
     }
 
-    @Override
     public String toString() {
         return "Nurse: " + name + " | Shift: " + shift + " | Assigned Doctor: " + assignedDoctor;
     }
