@@ -1,1 +1,20 @@
+class Nurse extends MedicalProfessional {
+    private String assignedDoctor, shift, duties;
 
+    public Nurse(String id, String name, String address, String phoneNumber, String email, String emergencyContact, String dateOfBirth, char gender, String employeeId, double salary, String joinDate, String department, String qualification, String assignedDoctor, String shift, String duties) {
+        super(id, name, address, phoneNumber, email, emergencyContact, dateOfBirth, gender, employeeId, salary, joinDate, department, qualification);
+        this.assignedDoctor = assignedDoctor;
+        this.shift = shift;
+        this.duties = duties;
+    }
+
+    @Override
+    public String getRole() {
+        return "Nurse";
+    }
+
+    @Override
+    public String getDetails() {
+        return super.getDetails() + " | Assigned Doctor: " + assignedDoctor;
+    }
+}
