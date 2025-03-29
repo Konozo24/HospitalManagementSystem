@@ -1,14 +1,18 @@
 class Nurse extends MedicalProfessional {
-    private String shift;
-    private String assignedDoctor;
+    private String assignedDoctor, shift, duties;
 
-    public Nurse(String id, String name, int age, String gender, String employeeId, String department, double salary, String shift, String assignedDoctor) {
-        super(id, name, age, gender, employeeId, department, salary);
-        this.shift = shift;
+    public Nurse(String id, String name, int age, String gender, String employeeId, double salary, String department, String qualification, String assignedDoctor, String shift, String duties) {
+        super(id, name, age, gender, employeeId, salary, department, qualification);
         this.assignedDoctor = assignedDoctor;
+        this.shift = shift;
+        this.duties = duties;
+    }
+
+    public String getRole() {
+        return "Nurse";
     }
 
     public String toString() {
-        return "Nurse: " + name + " | Shift: " + shift + " | Assigned Doctor: " + assignedDoctor;
+        return "Nurse: " + name + " | Shift: " + shift + " | Assigned Doctor: " + assignedDoctor + " | Duties: " + duties;
     }
 }
