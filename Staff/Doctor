@@ -15,6 +15,9 @@ class Doctor extends MedicalProfessional {
     public void addPatient(String patientName) {
         patients.add(patientName);
     }
+    public void removePatient(Patient patient) {
+        patients.remove(patient);
+    }
 
     public String getRole() {
         return "Doctor";
