@@ -12,7 +12,7 @@ public class MedicalProfessional extends Person {
         this.salary = salary;
         this.joinDate = joinDate;
         this.department = department;
-        this.qualification = qualification
+        this.qualification = qualification;
     }
     public String toString() {
         return "Medical Professional: " + name + 
@@ -21,5 +21,9 @@ public class MedicalProfessional extends Person {
                "\nJoin Date: " + joinDate + 
                "\nDepartment: " + department + 
                "\nQualification: " + qualification;
+    }
+
+    public String getDepartment(){
+        return this.department;
     }
 }
