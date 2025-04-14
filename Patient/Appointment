@@ -6,11 +6,11 @@ public class Appointment {
     private String time;
     private String consultationRoom;
     private String purpose;
-    private String status;  // Example: "Scheduled", "Completed", "Cancelled"
+    private String status;
 
-    // Constructor
-    public Appointment(String appointmentId, Patient patient, Doctor doctor, String date, String time,
-                       String consultationRoom, String purpose, String status) {
+    public Appointment(String appointmentId, Patient patient, Doctor doctor,
+            String date, String time, String consultationRoom,
+            String purpose, String status) {
         this.appointmentId = appointmentId;
         this.patient = patient;
         this.doctor = doctor;
@@ -21,35 +21,84 @@ public class Appointment {
         this.status = status;
     }
 
-    // Getters and Setters
-    public String getAppointmentId() { 
-        return appointmentId; 
-    }
-    public Patient getPatient() { 
-        return patient; 
-    }
-    public Doctor getDoctor() { 
-        return doctor; 
-    }
-    public String getDate() { 
-        return date; 
-    }
-    public String getTime() {
-         return time; 
-    }
-    public String getPurpose() { 
-        return purpose; 
-    }
-    public String getStatus() { 
-        return status; 
+    // Getters and setters
+    public String getAppointmentId() {
+        return appointmentId;
     }
 
-    // Methods to update status
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getConsultationRoom() {
+        return consultationRoom;
+    }
+
+    public void setConsultationRoom(String consultationRoom) {
+        this.consultationRoom = consultationRoom;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void completeAppointment() {
         this.status = "Completed";
     }
 
     public void cancelAppointment() {
         this.status = "Cancelled";
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment ID: " + appointmentId + ", Date: " + date + ", Time: " + time +
+                ", Room: " + consultationRoom + ", Purpose: " + purpose +
+                ", Status: " + status + ", Doctor: " + doctor.getName() +
+                ", Patient: " + patient.getName();
     }
 }
