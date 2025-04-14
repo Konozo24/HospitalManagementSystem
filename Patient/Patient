@@ -1,16 +1,19 @@
 import java.util.ArrayList;
 
-public class Patient extends Person{
+public class Patient extends Person {
     private String patientId;
     private String bloodGroup;
     private String admitDate;
     private String dischargeDate;
     private String insuranceInfo;
-    private final ArrayList<MedicalRecord> medicalHistory;
-    private final ArrayList<Appointment> appointments;
+    private ArrayList<MedicalRecord> medicalHistory;
+    private ArrayList<Appointment> appointments;
 
-    public Patient(String id, String name, int age, String gender,String patientId, String bloodGroup, String admitDate, String dischargeDate, String insuranceInfo) {
-        super(id, name, age, gender);
+    public Patient(String id, String name, String address, String phoneNumber, String email,
+            String emergencyContact, String dateOfBirth, char gender,
+            String patientId, String bloodGroup, String admitDate,
+            String dischargeDate, String insuranceInfo) {
+        super(id, name, address, phoneNumber, email, emergencyContact, dateOfBirth, gender);
         this.patientId = patientId;
         this.bloodGroup = bloodGroup;
         this.admitDate = admitDate;
@@ -20,46 +23,70 @@ public class Patient extends Person{
         this.appointments = new ArrayList<>();
     }
 
-    public String getPatientId() { 
-        return patientId; 
-    }
-    public void setPatientId(String patientId) { 
-        this.patientId = patientId; 
+    // Getters and setters
+    public String getPatientId() {
+        return patientId;
     }
 
-    public String getBloodGroup() { 
-        return bloodGroup; 
-    }
-    public void setBloodGroup(String bloodGroup) { 
-        this.bloodGroup = bloodGroup; 
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
-    public String getAdmitDate() { 
-        return admitDate; 
+    public String getBloodGroup() {
+        return bloodGroup;
     }
+
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
+    }
+
+    public String getAdmitDate() {
+        return admitDate;
+    }
+
     public void setAdmitDate(String admitDate) {
-         this.admitDate = admitDate; 
+        this.admitDate = admitDate;
     }
 
-    public String getDischargeDate() { 
-        return dischargeDate; 
-    }
-    public void setDischargeDate(String dischargeDate) { 
-        this.dischargeDate = dischargeDate; 
+    public String getDischargeDate() {
+        return dischargeDate;
     }
 
-    public String getInsuranceInfo() { 
-        return insuranceInfo; 
-    }
-    public void setInsuranceInfo(String insuranceInfo) { 
-        this.insuranceInfo = insuranceInfo; 
+    public void setDischargeDate(String dischargeDate) {
+        this.dischargeDate = dischargeDate;
     }
 
-    public ArrayList<MedicalRecord> getMedicalHistory() { 
-        return medicalHistory; 
+    public String getInsuranceInfo() {
+        return insuranceInfo;
     }
-    public ArrayList<Appointment> getAppointments() { 
-        return appointments; 
+
+    public void setInsuranceInfo(String insuranceInfo) {
+        this.insuranceInfo = insuranceInfo;
+    }
+
+    public ArrayList<MedicalRecord> getMedicalHistory() {
+        return medicalHistory;
+    }
+
+    public ArrayList<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    @Override
+    public String getRole() {
+        return "Patient";
+    }
+
+    @Override
+    public String getDetails() {
+        return "Patient ID: " + patientId + ", Blood Group: " + bloodGroup +
+                ", Insurance: " + insuranceInfo;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Role: Patient, Patient ID: " + patientId +
+                ", Blood Group: " + bloodGroup + ", Admit Date: " + admitDate +
+                ", Discharge Date: " + dischargeDate + ", Insurance: " + insuranceInfo;
     }
 }
-
