@@ -9,9 +9,9 @@ public class MedicalRecord {
     private String notes;
     private String followUpDate;
 
-    // Constructor
-    public MedicalRecord(String recordId, Patient patient, Doctor doctor, String date, String diagnosis,
-                         String treatment, String prescription, String notes, String followUpDate) {
+    public MedicalRecord(String recordId, Patient patient, Doctor doctor, String date,
+            String diagnosis, String treatment, String prescription,
+            String notes, String followUpDate) {
         this.recordId = recordId;
         this.patient = patient;
         this.doctor = doctor;
@@ -23,29 +23,83 @@ public class MedicalRecord {
         this.followUpDate = followUpDate;
     }
 
-    // Getters
-    public String getRecordId() { 
-        return recordId; 
+    // Getters and setters
+    public String getRecordId() {
+        return recordId;
     }
-    public Patient getPatient() { 
-        return patient; 
+
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
-    public Doctor getDoctor() { 
-        return doctor; 
+
+    public Patient getPatient() {
+        return patient;
     }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
     public String getDate() {
-         return date; 
+        return date;
     }
-    public String getDiagnosis() { 
-        return diagnosis; 
+
+    public void setDate(String date) {
+        this.date = date;
     }
-    public String getTreatment() { 
-        return treatment; 
+
+    public String getDiagnosis() {
+        return diagnosis;
     }
-    public String getPrescription() { 
-        return prescription; 
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
     }
+
+    public String getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(String treatment) {
+        this.treatment = treatment;
+    }
+
+    public String getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(String prescription) {
+        this.prescription = prescription;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     public String getFollowUpDate() {
-         return followUpDate; 
+        return followUpDate;
+    }
+
+    public void setFollowUpDate(String followUpDate) {
+        this.followUpDate = followUpDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Record ID: " + recordId + ", Date: " + date + ", Diagnosis: " + diagnosis +
+                ", Treatment: " + treatment + ", Prescription: " + prescription +
+                ", Notes: " + notes + ", Follow-up: " + followUpDate;
     }
 }
