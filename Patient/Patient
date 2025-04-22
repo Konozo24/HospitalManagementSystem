@@ -1,3 +1,4 @@
+package Assignment;
 import java.util.ArrayList;
 
 public class Patient extends Person {
@@ -8,22 +9,24 @@ public class Patient extends Person {
     private String insuranceInfo;
     private ArrayList<MedicalRecord> medicalHistory;
     private ArrayList<Appointment> appointments;
-
-    public Patient(String id, String name, String address, String phoneNumber, String email,
-            String emergencyContact, String dateOfBirth, char gender,
-            String patientId, String bloodGroup, String admitDate,
-            String dischargeDate, String insuranceInfo) {
+    private static int patientNumber = 1;
+    
+    public Patient(String id, String name, String address, String phoneNumber, 
+                  String email, String emergencyContact, String dateOfBirth, 
+                  char gender, String bloodGroup, 
+                  String admitDate, String dischargeDate, String insuranceInfo) {
         super(id, name, address, phoneNumber, email, emergencyContact, dateOfBirth, gender);
-        this.patientId = patientId;
+        this.patientId = "P" + patientNumber;
         this.bloodGroup = bloodGroup;
         this.admitDate = admitDate;
         this.dischargeDate = dischargeDate;
         this.insuranceInfo = insuranceInfo;
         this.medicalHistory = new ArrayList<>();
         this.appointments = new ArrayList<>();
+        patientNumber++;
     }
 
-    // Getters and setters
+    // Getters and Setters
     public String getPatientId() {
         return patientId;
     }
@@ -63,30 +66,48 @@ public class Patient extends Person {
     public void setInsuranceInfo(String insuranceInfo) {
         this.insuranceInfo = insuranceInfo;
     }
-
+    
     public ArrayList<MedicalRecord> getMedicalHistory() {
         return medicalHistory;
     }
-
+    
     public ArrayList<Appointment> getAppointments() {
         return appointments;
     }
-
+    
+    // Methods to manage medical records
+    public void addMedicalRecord(MedicalRecord record) {
+        medicalHistory.add(record);
+    }
+    
+    public void removeMedicalRecord(MedicalRecord record) {
+        medicalHistory.remove(record);
+    }
+    
+    // Methods to manage appointments
+    public void addAppointment(Appointment appointment) {
+        if (!appointments.contains(appointment)) {
+            appointments.add(appointment);
+        }
+    }
+    
+    public void removeAppointment(Appointment appointment) {
+        appointments.remove(appointment);
+    }
+    
+    // Implementation of abstract methods
     @Override
     public String getRole() {
         return "Patient";
     }
-
+    
     @Override
     public String getDetails() {
-        return "Patient ID: " + patientId + ", Blood Group: " + bloodGroup +
-                ", Insurance: " + insuranceInfo;
+        return "Patient: " + getName() + ", Patient ID: " + patientId;
     }
-
+    
     @Override
     public String toString() {
-        return super.toString() + ", Role: Patient, Patient ID: " + patientId +
-                ", Blood Group: " + bloodGroup + ", Admit Date: " + admitDate +
-                ", Discharge Date: " + dischargeDate + ", Insurance: " + insuranceInfo;
+        return getName();
     }
 }
