@@ -1,0 +1,331 @@
+
+package Assignment;
+
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class AddPatientForm extends JFrame {
+
+    private JTextField nameField, idField, phoneField, emailField, emergencyContactField, dateOfBirthField, admitDateField, dischargeDateField;
+    private JTextArea addressArea, insuranceInfoArea;
+    private JRadioButton MaleButton, FemaleButton;
+    private JComboBox<String> bloodGroupComboBox;
+    private JButton submitButton, clearButton, backButton;
+    private HospitalService hospitalService;
+    private ButtonGroup group;
+
+    public AddPatientForm(HospitalService hospitalService) {
+
+        this.hospitalService = hospitalService;
+        this.setTitle("Add New Patient");
+        this.setSize(1200, 750);
+        this.setLayout(new GridBagLayout());
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // close only this window
+        
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+
+        JLabel titleLabel = new JLabel("Patient Registration Form");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(0,0,15,0));
+
+        JPanel formPanel = createFormPanel();
+        JPanel buttonPanel = createButtonPanel();
+
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
+        mainPanel.add(formPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        this.add(mainPanel);
+        this.setLocationRelativeTo(null); // center the window
+        this.setVisible(true);
+
+    }
+
+    private JPanel createFormPanel(){
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
+        ));
+        
+        nameField = new JTextField();
+        nameField.setPreferredSize(new Dimension(200, 30));
+        nameField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        idField = new JTextField();
+        idField.setPreferredSize(new Dimension(200, 30));
+        idField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        phoneField = new JTextField();
+        phoneField.setPreferredSize(new Dimension(200, 30));
+        phoneField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        emailField = new JTextField(); 
+        emailField.setPreferredSize(new Dimension(200, 30));
+        emailField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        emergencyContactField = new JTextField();
+        emergencyContactField.setPreferredSize(new Dimension(200, 30));
+        emergencyContactField.setFont(new Font("Arial", Font.PLAIN, 15));
+        
+        dateOfBirthField = new JTextField();
+        dateOfBirthField.setPreferredSize(new Dimension(200, 30));
+        dateOfBirthField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        admitDateField = new JTextField();
+        admitDateField.setPreferredSize(new Dimension(200, 30));
+        admitDateField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        dischargeDateField = new JTextField();
+        dischargeDateField.setPreferredSize(new Dimension(200, 30));
+        dischargeDateField.setFont(new Font("Arial", Font.PLAIN, 15));
+        
+        addressArea = new JTextArea();
+        addressArea.setFont(new Font("Arial", Font.PLAIN, 15));
+        addressArea.setLineWrap(true);
+        addressArea.setWrapStyleWord(true);
+        JScrollPane addressScrollPane = new JScrollPane(addressArea);
+        addressScrollPane.setPreferredSize(new Dimension(200, 60));
+
+        insuranceInfoArea = new JTextArea();
+        insuranceInfoArea.setFont(new Font("Arial", Font.PLAIN, 15));
+        insuranceInfoArea.setLineWrap(true);
+        insuranceInfoArea.setWrapStyleWord(true);
+        JScrollPane insuranceScrollPane = new JScrollPane(insuranceInfoArea);
+        insuranceScrollPane.setPreferredSize(new Dimension(200, 60));
+        
+        
+        MaleButton = new JRadioButton("Male");
+        MaleButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        FemaleButton = new JRadioButton("Female");
+        FemaleButton.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        group = new ButtonGroup();
+        group.add(MaleButton);
+        group.add(FemaleButton);
+
+        JPanel genderPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        genderPanel.add(MaleButton);
+        genderPanel.add(FemaleButton);
+
+        String[] bloodGroupTypes = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
+        bloodGroupComboBox = new JComboBox<>(bloodGroupTypes);
+        bloodGroupComboBox.setPreferredSize(new Dimension(200, 30));
+        bloodGroupComboBox.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10,10,10,10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        // First column of data fields
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        formPanel.add(new JLabel("Name: "), gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(nameField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(new JLabel("Date of Birth: "), gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(dateOfBirthField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        formPanel.add(new JLabel("Gender: "), gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(genderPanel, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        formPanel.add(new JLabel("Address: "), gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(addressScrollPane, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        formPanel.add(new JLabel("Email: "), gbc);
+        
+        gbc.gridx = 1;
+        formPanel.add(emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        formPanel.add(new JLabel("Emergency Contact: "), gbc);
+        
+        gbc.gridx = 1;
+        formPanel.add(emergencyContactField, gbc);
+
+        //Right column of data fields
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        formPanel.add(new JLabel("ID: "), gbc);
+        
+        gbc.gridx = 3;
+        formPanel.add(idField, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        formPanel.add(new JLabel("Blood Group"), gbc);
+
+        gbc.gridx = 3;
+        formPanel.add(bloodGroupComboBox, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        formPanel.add(new JLabel("Phone Number: "), gbc);
+
+        gbc.gridx = 3;
+        formPanel.add(phoneField, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        formPanel.add(new JLabel("Admit Date (YYYY-MM-DD): "), gbc);
+        
+        gbc.gridx = 3;
+        formPanel.add(admitDateField, gbc);
+        
+        gbc.gridx = 2;
+        gbc.gridy = 5;
+        formPanel.add(new JLabel("Discharge Date (YYYY-MM-DD): "), gbc);
+        
+        gbc.gridx = 3;
+        formPanel.add(dischargeDateField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        formPanel.add(new JLabel("Insurance Info: "), gbc);
+        
+        gbc.gridx = 1;
+        gbc.gridwidth = 3;
+        formPanel.add(insuranceScrollPane, gbc);
+        
+        return formPanel;
+
+    }
+
+    private JPanel createButtonPanel(){
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+
+        submitButton = new JButton("Submit");
+        submitButton.setPreferredSize(new Dimension(100, 35));
+        submitButton.setFont(new Font("Arial", Font.BOLD, 15));
+
+        clearButton = new JButton("Clear");
+        clearButton.setPreferredSize(new Dimension(100, 35));
+        clearButton.setFont(new Font("Arial", Font.BOLD, 15));
+
+        backButton = new JButton("Back");
+        backButton.setPreferredSize(new Dimension(100, 35));
+        backButton.setFont(new Font("Arial", Font.BOLD, 15));
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed (ActionEvent e){
+                if (isValidForm()){
+                    Patient newPatient = new Patient(
+                        idField.getText(),                 // ID
+                        nameField.getText(),               // Name
+                        addressArea.getText(),             // Address
+                        phoneField.getText(),              // Phone number
+                        emailField.getText(),              // Email
+                        emergencyContactField.getText(),           // Emergency contact
+                        dateOfBirthField.getText(),                // Date of birth
+                        getSelectedGender(),               // Gender
+                        bloodGroupComboBox.getSelectedItem().toString(), // Blood group
+                        admitDateField.getText(),          // Admit date
+                        dischargeDateField.getText(),      // Discharge date
+                        insuranceInfoArea.getText()           // Insurance info
+                    );
+
+                    hospitalService.addPatient(newPatient);
+                    JOptionPane.showMessageDialog(null, 
+                    "Patient added successfully!\n" +
+                    "\nPatient ID: " + newPatient.getPatientId() +
+                    "\nName: " + nameField.getText());
+                    clearForm();
+                }
+            }
+        });
+    
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                clearForm();
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+            }
+        });
+
+        buttonPanel.add(submitButton);
+        buttonPanel.add(clearButton);
+        buttonPanel.add(backButton);
+
+        return buttonPanel;
+    }
+
+
+    // Convert selected gender to character
+    private char getSelectedGender(){
+        if (MaleButton.isSelected()){
+            return 'M';
+        } else if (FemaleButton.isSelected()){
+            return 'F';
+        } else return 'N';
+    }
+
+
+    // Checks whether all the information is filled
+    private boolean isValidForm() {
+        if (
+            nameField.getText().trim().isEmpty() ||
+            phoneField.getText().trim().isEmpty() ||
+            emailField.getText().trim().isEmpty() ||
+            addressArea.getText().trim().isEmpty() ||
+            emergencyContactField.getText().trim().isEmpty() ||
+            dateOfBirthField.getText().trim().isEmpty() ||
+            (!MaleButton.isSelected() && !FemaleButton.isSelected()) ||
+            bloodGroupComboBox.getSelectedIndex() == -1 || 
+            admitDateField.getText().trim().isEmpty() ||
+            dischargeDateField.getText().trim().isEmpty() ||
+            insuranceInfoArea.getText().trim().isEmpty()
+        ) {
+            JOptionPane.showMessageDialog(this, "Please fill in all the information.", "Missing Info", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    
+        return true;
+    }
+
+    private void clearForm(){
+        nameField.setText("");
+        idField.setText("");
+        addressArea.setText("");
+        phoneField.setText("");
+        emailField.setText("");
+        emergencyContactField.setText("");
+        dateOfBirthField.setText("");
+        group.clearSelection();
+        bloodGroupComboBox.setSelectedIndex(0);
+        admitDateField.setText("");
+        dischargeDateField.setText("");
+        insuranceInfoArea.setText("");
+    }
+
+}
+
