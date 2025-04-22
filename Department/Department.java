@@ -1,20 +1,21 @@
+package Assignment;
 import java.util.ArrayList;
-// Department class
+
 class Department {
     private String departmentId;
     private String name;
     private String location;
     private String headDoctor;
-    private java.util.ArrayList<Doctor> doctors;
-    private java.util.ArrayList<Nurse> nurses;
+    private ArrayList<Doctor> doctors;
+    private ArrayList<Nurse> nurses;
     
     public Department(String departmentId, String name, String location, String headDoctor) {
         this.departmentId = departmentId;
         this.name = name;
         this.location = location;
         this.headDoctor = headDoctor;
-        this.doctors = new java.util.ArrayList<>();
-        this.nurses = new java.util.ArrayList<>();
+        this.doctors = new ArrayList<>();
+        this.nurses = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -50,11 +51,11 @@ class Department {
         this.headDoctor = headDoctor;
     }
     
-    public java.util.ArrayList<Doctor> getDoctors() {
+    public ArrayList<Doctor> getDoctors() {
         return doctors;
     }
     
-    public java.util.ArrayList<Nurse> getNurses() {
+    public ArrayList<Nurse> getNurses() {
         return nurses;
     }
     
