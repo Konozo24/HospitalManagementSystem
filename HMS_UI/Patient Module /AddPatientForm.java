@@ -1,8 +1,10 @@
-
-package Assignment;
+package Assignment.PatientModule;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+
+import Assignment.HospitalService;
+import Assignment.Patient;
 
 import java.awt.*;
 import java.awt.event.*;
