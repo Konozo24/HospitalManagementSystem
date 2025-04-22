@@ -1,3 +1,4 @@
+package Assignment;
 import java.util.ArrayList;
 
 public class Hospital{
@@ -10,7 +11,8 @@ public class Hospital{
     private ArrayList<Nurse> nurses;
     private ArrayList<Patient> patients;
     private ArrayList<Appointment> appointments;
-    private ArrayList<MedicalRecord> medicalrecords;
+    private ArrayList<MedicalRecord> medicalRecords;
+   
 
     public Hospital(String name,String address,String contactNumber,String email){
         if(name == null || address == null || contactNumber == null || email == null){
@@ -25,7 +27,11 @@ public class Hospital{
         this.nurses = new ArrayList<>();
         this.patients = new ArrayList<>();
         this.appointments = new ArrayList<>();
-        this.medicalrecords = new ArrayList<>();
+        this.medicalRecords = new ArrayList<>();
+
+        addPatient(new Patient("001", "John Doe", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'F', "A+", "2000-200-200", "200-2301-231", "Hello"));
+        addDoctor(new Doctor("0012", "Lebron", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'M', "D011", 2500.00, "2025-1-1", "Doctor", "SPM", "Cardiology", 5));
+        
     }
 
     // setter and getter
@@ -33,63 +39,77 @@ public class Hospital{
         return this.name;
     }
     public void setname(String name){
-        this.name = name;
         if (name == null)throw new IllegalArgumentException("Name is empty");
+        this.name = name;
     }
     public String getaddress(){
         return this.address;
     }
     public void setaddress(String address){
+        if (address == null)throw new IllegalArgumentException("Address is empty");
         this.address = address;
-        if (name == null)throw new IllegalArgumentException("Address is empty");
+        
     }
     public String getcontactNumber(){
         return this.contactNumber;
     }
     public void setcontactNumber(String contactNumber){
+        if (contactNumber == null)throw new IllegalArgumentException("Contact number is empty");
         this.contactNumber = contactNumber;
-        if (name == null)throw new IllegalArgumentException("contact number is empty");
+        
     }
     public String getemail(){
         return this.email;
     }
     public void setemail(String email){
+        if (email == null)throw new IllegalArgumentException("Email is empty");
         this.email = email;
-        if (name == null)throw new IllegalArgumentException("Email is empty");
+        
     }
+
     
-    // department method
+    // Department method
     public void addDepartment(Department department){
-        departments.add(department);
-        if (name == null)throw new IllegalArgumentException("Department is empty");
+        if (!departments.contains(department)) {
+            departments.add(department);
+        }
     }
+        
     public void removeDepartment(Department department){
+        if (department == null) {
+            throw new IllegalArgumentException("Department cannot be null");
+        }
+
         departments.remove(department);
-        if (name == null)throw new IllegalArgumentException("Department is empty");
-        if(!department.contains(department))throw new IllegalArgumentException("Department cannot be found");
     }
+
     public Department findDepartmentById(String departmentId){
-        if (name == null)throw new IllegalArgumentException("Department cannot be found");
         for(Department d : departments){
-            if(d.getId().equals(departmentId)){
+            if(d.getDepartmentId().equals(departmentId)){
                 return d;
             }
         }
         throw new IllegalArgumentException("Department ID " + departmentId + "not found");
     }
 
+    public ArrayList<Department> getAllDepartments() {
+        return departments;
+    }
     // doctor method
     public void addDoctor(Doctor doctor){
-        doctors.add(doctor);
-        if (name == null)throw new IllegalArgumentException("Doctor is empty");
+        if (!doctors.contains(doctor)) {
+            doctors.add(doctor);
+        }
     }
+
     public void removeDoctor(Doctor doctor){
+        if (doctor == null) {
+            throw new IllegalArgumentException("Doctor cannot be null");
+        }
         doctors.remove(doctor);
-        if (name == null)throw new IllegalArgumentException("Doctor is empty");
-        if(!doctor.contains(doctor))throw new IllegalArgumentException("Doctor cannot be found");
     }
+
     public Doctor findDoctorById(String doctorId){
-        if (name == null)throw new IllegalArgumentException("Doctor cannot be found");
         for(Doctor d : doctors){
             if(d.getId().equals(doctorId)){
                 return d;
@@ -97,90 +117,125 @@ public class Hospital{
         }
         throw new IllegalArgumentException("Doctor ID " + doctorId + "not found");
     }
+
+    public ArrayList<Doctor> getAllDoctors() {
+        return doctors;
+    }
     
     // nurse method
     public void addNurse(Nurse nurse){
-        nurses.add(nurse);
-        if (name == null)throw new IllegalArgumentException("Nurse is empty");
+        if (!nurses.contains(nurse)) {
+            nurses.add(nurse);
+        }
     }
+
     public void removeNurse(Nurse nurse){
+        if (name == null){
+            throw new IllegalArgumentException("Nurse cannot be null");
+        }
+
         nurses.remove(nurse);
-        if (name == null)throw new IllegalArgumentException("Nurse is empty");
-        if(!nurse.contains(nurse))throw new IllegalArgumentException("Nurse cannot be found");
     }
     public Nurse findNurseById(String nurseId){
-        if (name == null)throw new IllegalArgumentException("Nurse cannot be found");
         for(Nurse d : nurses){
             if(d.getId().equals(nurseId)){
                 return d;
             }
         }
-        throw new IllegalArgumentException("Nurse ID " + nurseId + "not found");
+        return null;
     }
 
+    public ArrayList<Nurse> getAllNurses() {
+        return nurses;
+    }
+    
     // patient method
     public void addPatient(Patient patient){
-        patients.add(patient);
-        if (name == null)throw new IllegalArgumentException("Patient is empty");
+        if (!patients.contains(patient)) {
+            patients.add(patient);
+        }
+        
     }
     public void removePatient(Patient patient){
+        if (patient == null) {
+            throw new IllegalArgumentException("Patient cannot be null");
+        }
         patients.remove(patient);
-        if (name == null)throw new IllegalArgumentException("Patient is empty");
-        if(!patient.contains(patient))throw new IllegalArgumentException("Patient cannot be found");
     }
     public Patient findPatientById(String patientId){
-        if (name == null)throw new IllegalArgumentException("Patient cannot be found");
         for(Patient d : patients){
             if(d.getId().equals(patientId)){
                 return d;
             }
         }
-        throw new IllegalArgumentException("Patient ID " + patientId + "not found");
+        return null;
+    }
+
+    public ArrayList<Patient> getAllPatients() {
+        return patients;
     }
 
     // appointment method
     public void addAppointment(Appointment appointment){
-        appointments.add(appointment);
-        if (name == null)throw new IllegalArgumentException("Appointment is empty");
+        if (!appointments.contains(appointment)) {
+            appointments.add(appointment);
+        }
+
     }
+    
     public void removeAppointment(Appointment appointment){
+        if(!appointments.contains(appointment))throw new IllegalArgumentException("Appointment cannot be found");
+
         appointments.remove(appointment);
-        if (name == null)throw new IllegalArgumentException("Appointment is empty");
-        if(!appointment.contains(appointment))throw new IllegalArgumentException("Appointment cannot be found");
     }
     public Appointment findAppointmentById(String appointmentId){
-        if (name == null)throw new IllegalArgumentException("No appointment");
-        for(Appointment d : appointments){
-            if(d.getId().equals(appointmentId)){
-                return d;
+        for(Appointment a : appointments){
+            if(a.getAppointmentId().equals(appointmentId)){
+                return a;
             }
         }
-        throw new IllegalArgumentException("Appointment ID " + appointmentId + "not found");
+        return null;
+    }
+
+    public ArrayList<Appointment> getAllAppointments() {
+        return appointments;
     }
 
     // medical record method
     public void addMedicalRecord(MedicalRecord record){
-        medicalrecords.add(record);
-        if (name == null)throw new IllegalArgumentException("Record is empty");
+        if (!medicalRecords.contains(record)) {
+            medicalRecords.add(record);
+        }
+        
     }
     public void removeMedicalRecord(MedicalRecord record){
-        medicalrecords.remove(record);
-        if (name == null)throw new IllegalArgumentException("Record is empty");
-        if(!record.contains(record))throw new IllegalArgumentException("Record cannot be found");
+        medicalRecords.remove(record);
+        
     }
+
+    public ArrayList<MedicalRecord> getAllMedicalRecords() {
+        return medicalRecords;
+    }
+
     public MedicalRecord findMedicalRecordById(String recordId){
-        if (name == null)throw new IllegalArgumentException("Record cannot be found");
-        for(MedicalRecord d : medicalrecords){
-            if(d.getId().equals(recordId)){
+        for(MedicalRecord d : medicalRecords){
+            if(d.getRecordId().equals(recordId)){
                 return d;
             }
         }
-        throw new IllegalArgumentException("Medical record ID " + recordId + "not found");
+        return null;
     }
 
     public String toString(){
         try {
-            return String.format("%-10s %-10s %-10s %-10s" , this.name,this.address,this.contactNumber,this.email);
+            return "Hospital: " + name +
+            "\nAddress: " + address +
+            "\nContact: " + contactNumber +
+            "\nEmail: " + email +
+            "\nDepartments: " + departments.size() +
+            "\nDoctors: " + doctors.size() +
+            "\nNurses: " + nurses.size() +
+            "\nPatients: " + patients.size();
         } catch (Exception e) {
             return "Error hospital details";
         }
