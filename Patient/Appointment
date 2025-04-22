@@ -1,4 +1,6 @@
-public class Appointment {
+package Assignment;
+
+class Appointment {
     private String appointmentId;
     private Patient patient;
     private Doctor doctor;
@@ -6,22 +8,28 @@ public class Appointment {
     private String time;
     private String consultationRoom;
     private String purpose;
-    private String status;
-
-    public Appointment(String appointmentId, Patient patient, Doctor doctor,
-            String date, String time, String consultationRoom,
-            String purpose, String status) {
-        this.appointmentId = appointmentId;
+    private String status; // Scheduled, Completed, Cancelled
+    private static int appointmentNumber = 1;
+    
+    public Appointment(Patient patient, Doctor doctor, 
+                      String date, String time, String consultationRoom, 
+                      String purpose) {
+        this.appointmentId = "A" + appointmentNumber;
         this.patient = patient;
         this.doctor = doctor;
         this.date = date;
         this.time = time;
         this.consultationRoom = consultationRoom;
         this.purpose = purpose;
-        this.status = status;
+        this.status = "Scheduled";
+        appointmentNumber++;
+
+        // Add this appointment to both patient and doctor
+        patient.addAppointment(this);
+        doctor.addAppointment(this);
     }
 
-    // Getters and setters
+    // Getters and Setters
     public String getAppointmentId() {
         return appointmentId;
     }
@@ -85,20 +93,36 @@ public class Appointment {
     public void setStatus(String status) {
         this.status = status;
     }
-
+    
+    // Complete the appointment
     public void completeAppointment() {
         this.status = "Completed";
     }
-
+    
+    // Cancel the appointment
     public void cancelAppointment() {
         this.status = "Cancelled";
+        patient.removeAppointment(this);
+        doctor.removeAppointment(this);
     }
-
+    
     @Override
     public String toString() {
-        return "Appointment ID: " + appointmentId + ", Date: " + date + ", Time: " + time +
-                ", Room: " + consultationRoom + ", Purpose: " + purpose +
-                ", Status: " + status + ", Doctor: " + doctor.getName() +
-                ", Patient: " + patient.getName();
+        return "Appointment ID: " + appointmentId +
+               "\nPatient: " + patient.getName() +
+               "\nDoctor: " + doctor.getName() +
+               "\nDate: " + date +
+               "\nTime: " + time +
+               "\nRoom: " + consultationRoom +
+               "\nPurpose: " + purpose +
+               "\nStatus: " + status;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Appointment that = (Appointment) obj;
+        return appointmentId.equals(that.appointmentId);
     }
 }
