@@ -1,4 +1,6 @@
-public class MedicalRecord {
+package Assignment;
+
+class MedicalRecord {
     private String recordId;
     private Patient patient;
     private Doctor doctor;
@@ -8,11 +10,12 @@ public class MedicalRecord {
     private String prescription;
     private String notes;
     private String followUpDate;
-
-    public MedicalRecord(String recordId, Patient patient, Doctor doctor, String date,
-            String diagnosis, String treatment, String prescription,
-            String notes, String followUpDate) {
-        this.recordId = recordId;
+    private static int recordNumber = 1;
+    
+    public MedicalRecord(Patient patient, Doctor doctor, 
+                        String date, String diagnosis, String treatment, 
+                        String prescription, String notes, String followUpDate) {
+        this.recordId = "MR" + recordNumber;
         this.patient = patient;
         this.doctor = doctor;
         this.date = date;
@@ -21,9 +24,13 @@ public class MedicalRecord {
         this.prescription = prescription;
         this.notes = notes;
         this.followUpDate = followUpDate;
+        recordNumber++;
+        
+        // Add this record to the patient's medical history
+        patient.addMedicalRecord(this);
     }
 
-    // Getters and setters
+    // Getters and Setters
     public String getRecordId() {
         return recordId;
     }
@@ -95,11 +102,26 @@ public class MedicalRecord {
     public void setFollowUpDate(String followUpDate) {
         this.followUpDate = followUpDate;
     }
-
+    
     @Override
     public String toString() {
-        return "Record ID: " + recordId + ", Date: " + date + ", Diagnosis: " + diagnosis +
-                ", Treatment: " + treatment + ", Prescription: " + prescription +
-                ", Notes: " + notes + ", Follow-up: " + followUpDate;
+        return "Record ID: " + recordId +
+               "\nPatient: " + patient.getName() +
+               "\nDoctor: " + doctor.getName() +
+               "\nDate: " + date +
+               "\nDiagnosis: " + diagnosis +
+               "\nTreatment: " + treatment +
+               "\nPrescription: " + prescription +
+               "\nNotes: " + notes +
+               "\nFollow-up Date: " + followUpDate;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        MedicalRecord that = (MedicalRecord) obj;
+        return recordId.equals(that.recordId);
     }
 }
+
