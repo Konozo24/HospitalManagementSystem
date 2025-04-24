@@ -1,6 +1,6 @@
-package Assignment;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -12,11 +12,11 @@ public class HospitalManagementUI extends JFrame {
     private JPanel mainPanel;
     private JPanel headerPanel;
     private JPanel menuPanel;
-    private JPanel infoPanel;
+    
     
     // Components
     private JLabel hospitalNameLabel;
-    private JLabel hospitalInfoLabel;
+    
     
     public HospitalManagementUI(Hospital hospital) {
         if (hospital == null) {
@@ -52,9 +52,7 @@ public class HospitalManagementUI extends JFrame {
         createMenuPanel();
         mainPanel.add(menuPanel, BorderLayout.CENTER);
         
-        // Add info panel
-        createInfoPanel();
-        mainPanel.add(infoPanel, BorderLayout.SOUTH);
+
         
         // Add main panel to frame
         add(mainPanel);
@@ -77,45 +75,65 @@ public class HospitalManagementUI extends JFrame {
         menuPanel = new JPanel(new GridLayout(3, 2, 20, 20));
         
         // Create menu buttons
-        JButton addPatientButton = createMenuButton("Add Patient", "Click to a new patient to the system");
-        addPatientButton.addActionListener(new ActionListener() {
+        JButton patientButton = createMenuButton("Patient", "Click to enter Patient Module");
+        patientButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                new AddPatientForm(hospitalService);
-            }
+                setVisible(false);
+                PatientModule module = new PatientModule(hospitalService);
+        
+                // When the patient module is closed, make the main menu visible again
+                module.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent we) {
+                        setVisible(true);  // Make the main menu visible again when the module is closed
+                    }
+                });
+                module.setVisible(true);  // Show the Patient Module
+                }
         });
             
        
-        JButton scheduleButton = createMenuButton("Schedule Appointment", "Click to schedule an appointment");
-        scheduleButton.addActionListener(new ActionListener() {
+        JButton appointmentButton = createMenuButton("Appointment", "Click to enter Appointment Module");
+        appointmentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                new ScheduleAppointment(hospitalService);
+                setVisible(false);
+                AppointmentModule module = new AppointmentModule(hospitalService);
+        
+                // When the patient module is closed, make the main menu visible again
+                module.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent we) {
+                        setVisible(true);  // Make the main menu visible again when the module is closed
+                    }
+                });
+                module.setVisible(true);  // Show the Patient Module
             }
         });
 
-        JButton addMedicalRecordButton = createMenuButton("Add Medical Record", "Click to add a medical record");
-        addMedicalRecordButton.addActionListener(new ActionListener() {
+        JButton medicalRecordButton = createMenuButton("Medical Record", "Click to enter Medical Record Module");
+        medicalRecordButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 new AddMedicalRecord(hospitalService);
             }
         });
 
-        JButton cancelAppointmentButton = createMenuButton("Cancel Appointment", "Click to cancel an appointment");
-        cancelAppointmentButton.addActionListener(new ActionListener() {
+        JButton doctorButton = createMenuButton("Doctor", "Click to enter Doctor Module");
+        doctorButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 new CancelAppointment(hospitalService);
             }
         });
 
-        JButton appointmentsButton = createMenuButton("Appointments", "Manage appointments");
-        JButton recordsButton = createMenuButton("Medical Records", "Manage medical records");
+        JButton nurseButton = createMenuButton("Nurse", "Click to enter Nurse Module");
+        JButton departmentButton = createMenuButton("Department", "Click to enter Department Module");
         
         // Add buttons to menu panel
-        menuPanel.add(addPatientButton);
-        menuPanel.add(scheduleButton);
-        menuPanel.add(addMedicalRecordButton);
-        menuPanel.add(cancelAppointmentButton);
-        menuPanel.add(appointmentsButton);
-        menuPanel.add(recordsButton);
+        menuPanel.add(patientButton);
+        menuPanel.add(appointmentButton);
+        menuPanel.add(medicalRecordButton);
+        menuPanel.add(doctorButton);
+        menuPanel.add(nurseButton);
+        menuPanel.add(departmentButton);
     }
     
     private JButton createMenuButton(String text, String tooltip) {
@@ -149,29 +167,9 @@ public class HospitalManagementUI extends JFrame {
         return button;
     }
     
-    private void createInfoPanel() {
-        infoPanel = new JPanel(new BorderLayout());
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-        
-        // Hospital info
-        hospitalInfoLabel = new JLabel(createHospitalInfoHTML());
-        hospitalInfoLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        
-        // Add to info panel
-        infoPanel.add(hospitalInfoLabel, BorderLayout.CENTER);
-    }
+   
     
-    private String createHospitalInfoHTML() {
-        return "<html>" +
-               "Address: " + hospital.getaddress() + "<br>" +
-               "Contact: " + hospital.getcontactNumber() + "<br>" +
-               "Email: " + hospital.getemail() + "<br>" +
-               "Departments: " + hospital.getAllDepartments().size() + " | " +
-               "Doctors: " + hospital.getAllDoctors().size() + " | " +
-               "Nurses: " + hospital.getAllNurses().size() + " | " +
-               "Patients: " + hospital.getAllPatients().size() +
-               "</html>";
-    }
+
     
     // Main method for testing
     public static void main(String[] args) {
