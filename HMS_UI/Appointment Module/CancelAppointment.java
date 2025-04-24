@@ -1,4 +1,4 @@
-package Assignment;
+
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -183,10 +183,10 @@ public class CancelAppointment extends JFrame {
             public void actionPerformed (ActionEvent e){
                 if (selectedAppointment != null){
 
-                    int option = JOptionPane.showConfirmDialog(buttonPanel, "Are you sure you want to cancel this appointment?", "Cancel Appointment", JOptionPane.YES_NO_OPTION);
+                    int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel this appointment?", "Cancel Appointment", JOptionPane.YES_NO_OPTION);
                     
                     if (option == JOptionPane.YES_OPTION){
-                        JOptionPane.showMessageDialog(buttonPanel, "Appointment cancelled successfully \n", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Appointment cancelled successfully \n", "Success", JOptionPane.INFORMATION_MESSAGE);
                         hospitalService.removeAppointment(selectedAppointment);
                         // Remove the row from tdhe table model
                         int selectedRow = appointmentTable.getSelectedRow();
