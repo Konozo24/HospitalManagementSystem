@@ -3,10 +3,11 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import java.awt.event.*;
 
 public class AddDoctorForm extends JFrame {
 
-    private JTextField nameField, idField, phoneField, emailField, specializationField, qualificationField, joiningDateField,yearsOfExperience;
+    private JTextField nameField, idField, phoneField, emailField, specializationField, qualificationField, joiningDateField,yearsOfExperienceField;
     private JRadioButton MaleButton, FemaleButton;
     private JComboBox<String> departmentComboBox;
     private JButton submitButton, clearButton, backButton;
@@ -40,6 +41,26 @@ public class AddDoctorForm extends JFrame {
         this.setVisible(true);
     }
 
+    private String getSelectedGender(){
+        if(MaleButton.isSelected()) return "Male";
+        if(FemaleButton.isSelected()) return "Female";
+        return "";
+    }
+
+    private void clearForm() {
+        JTextField[] fields = {
+            idField, nameField, phoneField, emailField,
+            specializationField, qualificationField,
+            joiningDateField, yearsOfExperienceField
+        };
+        for (JTextField field : fields) {
+            field.setText("");
+        }
+    
+        group.clearSelection();
+        departmentComboBox.setSelectedIndex(0);
+    }    
+
     private JPanel createFormPanel() {
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -54,9 +75,9 @@ public class AddDoctorForm extends JFrame {
         specializationField = new JTextField();
         qualificationField = new JTextField();
         joiningDateField = new JTextField();
-        yearsOfExperience = new JTextField();
+        yearsOfExperienceField = new JTextField();
 
-        JTextField[] fields = {idField, nameField, phoneField, emailField, specializationField, qualificationField, joiningDateField,yearsOfExperience};
+        JTextField[] fields = {idField, nameField, phoneField, emailField, specializationField, qualificationField, joiningDateField,yearsOfExperienceField};
         for (JTextField field : fields) {
             field.setPreferredSize(new Dimension(200, 30));
             field.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -115,7 +136,7 @@ public class AddDoctorForm extends JFrame {
         gbc.gridx = 1; formPanel.add(joiningDateField, gbc);
 
         gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Years Of Experience : "), gbc);
-        gbc.gridx = 1; formPanel.add(yearsOfExperience, gbc);
+        gbc.gridx = 1; formPanel.add(yearsOfExperienceField, gbc);
 
         return formPanel;
     }
@@ -135,17 +156,53 @@ public class AddDoctorForm extends JFrame {
         backButton.setFont(new Font("Arial", Font.BOLD, 15));
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
 
-        submitButton = new JButton("Submit");
-        clearButton = new JButton("Clear");
-        backButton = new JButton("Back");
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed (ActionEvent e){
+                if (isValidForm()){
+                    Doctor newDoctor = new Doctor(
+                        idField.getText(),                 // ID
+                        nameField.getText(),               // Name
+                        phoneField.getText(),              // Phone number
+                        emailField.getText(),              // Email
+                        departmentComboBox.getSelectedItem().toString(),
+                        getSelectedGender(),
+                        specializationField.getText(),
+                        qualificationField.getText(),
+                        joiningDateField.getText(),
+                        yearsOfExperienceField.getText()
+                    );
+
+                    hospitalService.addDoctor(newDoctor);
+                    JOptionPane.showMessageDialog(null, 
+                    "Doctor added successfully!\n" +
+                    "\nDoctor ID: " + newDoctor.getDoctorId() +
+                    "\nName: " + newDoctor.getName());
+                    clearForm();
+                }
+            }
+        });
+    
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                clearForm();
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+            }
+        });
 
         buttonPanel.add(submitButton);
         buttonPanel.add(clearButton);
         buttonPanel.add(backButton);
-    
-        
+
         return buttonPanel;
-    } 
+    }
 
     private boolean isValidForm() {
         if (
@@ -156,7 +213,8 @@ public class AddDoctorForm extends JFrame {
             departmentComboBox.getSelectedIndex() == -1 || 
             specializationField.getText().trim().isEmpty() ||
             qualificationField.getText().trim().isEmpty() ||
-            joiningDateField.getText().trim().isEmpty()
+            joiningDateField.getText().trim().isEmpty()||
+            yearsOfExperienceField.getText().trim().isEmpty()
         ) {
             JOptionPane.showMessageDialog(this, "Please fill in all the information.", "Missing Info", JOptionPane.WARNING_MESSAGE);
             return false;
