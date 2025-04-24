@@ -1,4 +1,5 @@
 
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -120,7 +121,17 @@ public class HospitalManagementUI extends JFrame {
         JButton doctorButton = createMenuButton("Doctor", "Click to enter Doctor Module");
         doctorButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                new CancelAppointment(hospitalService);
+                setVisible(false);
+                DoctorModule module = new DoctorModule(hospitalService);
+        
+                // When the patient module is closed, make the main menu visible again
+                module.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent we) {
+                        setVisible(true);  // Make the main menu visible again when the module is closed
+                    }
+                });
+                module.setVisible(true);  // Show the Patient Module
             }
         });
 
