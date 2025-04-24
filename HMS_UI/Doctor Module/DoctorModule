@@ -70,12 +70,30 @@ public class DoctorModule extends JFrame {
             
        
         JButton removeDoctorButton = createMenuButton("Remove Doctor", "Click to remove doctor");
+        removeDoctorButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new DeleteDoctorForm(hospitalService);
+            }
+        });
         
 
         JButton editDoctorButton = createMenuButton("Edit Doctor", "Click to edit doctor");
+        editDoctorButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new EditDoctorForm(hospitalService);
+            }
+        });
         
 
         JButton viewDoctorButton = createMenuButton("View Doctor", "Click to view doctor");
+        viewDoctorButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new ViewDoctorForm(hospitalService);
+            }
+        });
 
         JButton backButton = createMenuButton("Back", "Click to back to menu");
         backButton.addActionListener(new ActionListener() {
