@@ -1,10 +1,12 @@
-package Assignment;
+
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class ScheduleAppointment extends JFrame {
     private JComboBox<Patient> patientComboBox;
@@ -123,7 +125,7 @@ public class ScheduleAppointment extends JFrame {
 
         gbc.gridx = 2;
         gbc.gridy = 1;
-        formPanel.add(new JLabel("Time: "), gbc);
+        formPanel.add(new JLabel("Time (HH:MM): "), gbc);
 
         gbc.gridx = 3;
         formPanel.add(timeField, gbc);
@@ -198,8 +200,10 @@ public class ScheduleAppointment extends JFrame {
 
 
     private boolean isValidForm() {
+        String dateText = dateField.getText().trim();
+
         if (
-            dateField.getText().trim().isEmpty() ||
+            dateText.isEmpty() ||
             timeField.getText().trim().isEmpty() ||
             consultationRoomField.getText().trim().isEmpty() ||
             purposeArea.getText().trim().isEmpty() ||
@@ -209,7 +213,21 @@ public class ScheduleAppointment extends JFrame {
             JOptionPane.showMessageDialog(this, "Please fill in all the information.", "Missing Info", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-    
+
+        // Regex format to check data validity (YYYY-MM-DD)
+        if (!dateText.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            JOptionPane.showMessageDialog(this, "Date must be in the format YYYY-MM-DD.", "Invalid Date Format", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        // Check if the date is a valid calendar date
+        try {
+            LocalDate.parse(dateText); // throws exception if date is invalid
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Invalid date. Please enter a correct date in the format YYYY-MM-DD.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
         return true;
     }
 
