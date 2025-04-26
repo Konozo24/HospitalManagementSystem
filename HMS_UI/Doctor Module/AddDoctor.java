@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 public class AddDoctorForm extends JFrame {
 
-    private JTextField nameField, idField, phoneField, emailField, specializationField, qualificationField, joiningDateField,yearsOfExperienceField;
+    private JTextField nameField, idField, addressField, phoneField, emailField, emergencyContactField, dateOfBirthField, employeeIdField, salaryField, specializationField, qualificationField, joiningDateField,yearsOfExperienceField;
     private JRadioButton MaleButton, FemaleButton;
     private JComboBox<String> departmentComboBox;
     private JButton submitButton, clearButton, backButton;
@@ -71,13 +71,18 @@ public class AddDoctorForm extends JFrame {
         idField = new JTextField();
         nameField = new JTextField();
         phoneField = new JTextField();
+        addressField = new JTextField();
+        emergencyContactField = new JTextField();
+        dateOfBirthField = new JTextField();
+        employeeIdField = new JTextField();
+        salaryField = new JTextField();
         emailField = new JTextField();
         specializationField = new JTextField();
         qualificationField = new JTextField();
         joiningDateField = new JTextField();
         yearsOfExperienceField = new JTextField();
 
-        JTextField[] fields = {idField, nameField, phoneField, emailField, specializationField, qualificationField, joiningDateField,yearsOfExperienceField};
+        JTextField[] fields = {nameField, idField, addressField, phoneField, emailField, emergencyContactField, dateOfBirthField, employeeIdField, salaryField, specializationField, qualificationField, joiningDateField,yearsOfExperienceField};
         for (JTextField field : fields) {
             field.setPreferredSize(new Dimension(200, 30));
             field.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -120,6 +125,21 @@ public class AddDoctorForm extends JFrame {
         gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Email : "), gbc);
         gbc.gridx = 1; formPanel.add(emailField, gbc);
 
+        gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Address : "), gbc);
+        gbc.gridx = 1; formPanel.add(addressField, gbc);
+
+        gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Emergency Contact : "), gbc);
+        gbc.gridx = 1; formPanel.add(emergencyContactField, gbc);
+
+        gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Date of birth : "), gbc);
+        gbc.gridx = 1; formPanel.add(dateOfBirthField, gbc);
+
+        gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Employee ID : "), gbc);
+        gbc.gridx = 1; formPanel.add(employeeIdField, gbc);
+
+        gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Salary : "), gbc);
+        gbc.gridx = 1; formPanel.add(salaryField, gbc);
+
         gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Gender : "), gbc);
         gbc.gridx = 1; formPanel.add(genderPanel, gbc);
 
@@ -161,16 +181,21 @@ public class AddDoctorForm extends JFrame {
             public void actionPerformed (ActionEvent e){
                 if (isValidForm()){
                     Doctor newDoctor = new Doctor(
-                        idField.getText(),                 // ID
-                        nameField.getText(),               // Name
-                        phoneField.getText(),              // Phone number
-                        emailField.getText(),              // Email
-                        departmentComboBox.getSelectedItem().toString(),
+                        idField.getText(),                
+                        nameField.getText(),               
+                        addressField.getText(),
+                        phoneField.getText(),             
+                        emailField.getText(),
+                        emergencyContactField.getText(),            
+                        dateOfBirthField.getText(),
                         getSelectedGender(),
-                        specializationField.getText(),
-                        qualificationField.getText(),
+                        employeeIdField.getText(),
+                        salaryField.getText(),
                         joiningDateField.getText(),
-                        yearsOfExperienceField.getText()
+                        departmentComboBox.getSelectedItem().toString(),
+                        qualificationField.getText(),
+                        specializationField.getText(),
+                        yearsOfExperienceField.ParseInt()
                     );
 
                     hospitalService.addDoctor(newDoctor);
@@ -209,6 +234,11 @@ public class AddDoctorForm extends JFrame {
             nameField.getText().trim().isEmpty() ||
             phoneField.getText().trim().isEmpty() ||
             emailField.getText().trim().isEmpty() ||
+            addressField.getText().trim().isEmpty() ||
+            emergencyContactField.getText().trim().isEmpty() ||
+            dateOfBirthField.getText().trim().isEmpty() ||
+            employeeIdField.getText().trim().isEmpty() ||
+            salaryField.getText().trim().isEmpty() ||
             (!MaleButton.isSelected() && !FemaleButton.isSelected()) ||
             departmentComboBox.getSelectedIndex() == -1 || 
             specializationField.getText().trim().isEmpty() ||
