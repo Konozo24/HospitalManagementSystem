@@ -1,4 +1,4 @@
-package Assignment;
+
 import java.util.ArrayList;
 
 public class Hospital{
@@ -89,7 +89,7 @@ public class Hospital{
                 return d;
             }
         }
-        throw new IllegalArgumentException("Department ID " + departmentId + "not found");
+        return null;
     }
 
     public ArrayList<Department> getAllDepartments() {
@@ -115,7 +115,7 @@ public class Hospital{
                 return d;
             }
         }
-        throw new IllegalArgumentException("Doctor ID " + doctorId + "not found");
+        return null;
     }
 
     public ArrayList<Doctor> getAllDoctors() {
