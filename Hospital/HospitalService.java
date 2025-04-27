@@ -126,7 +126,7 @@ public class HospitalService {
         System.out.println("Patient removed successfully: " + patient.getName());
     }   
 
-    public Patient findPatientById(Patient patient){
+    public Patient findPatientById(String patient){
         if (patient == null || patient.getId() == null) {
             throw new IllegalArgumentException("Patient ID is null");
         }
@@ -186,11 +186,11 @@ public class HospitalService {
         System.out.println("Medical record removed successfully: " + record.getRecordId());
     }
 
-    public MedicalRecord findMedicalRecordById(MedicalRecord record){
-        if (record == null || record.getRecordId() == null) {
+    public MedicalRecord findMedicalRecordById(String recordId){
+        if (recordId == null || recordId == null) {
             throw new IllegalArgumentException("Record ID is null");
         }
-        return hospital.findMedicalRecordById(record.getRecordId());
+        return hospital.findMedicalRecordById(recordId);
     }
 
     public List<MedicalRecord> viewAllMedicalRecords() {
