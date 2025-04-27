@@ -1,11 +1,6 @@
-package Assignment.PatientModule;
-
-import javax.swing.*;
-
-import Assignment.HospitalService;
-
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 public class PatientModule extends JFrame {
     private HospitalService hospitalService;
@@ -41,8 +36,6 @@ public class PatientModule extends JFrame {
         createMenuPanel();
         mainPanel.add(menuPanel, BorderLayout.CENTER);
         
-    
-        
         // Add main panel to frame
         add(mainPanel);
     }
@@ -74,12 +67,30 @@ public class PatientModule extends JFrame {
             
        
         JButton removePatientButton = createMenuButton("Remove Patient", "Click to remove patient");
+        removePatientButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new RemovePatient(hospitalService);
+            }
+        });
         
 
         JButton editPatientButton = createMenuButton("Edit Patient", "Click to edit patient");
+        editPatientButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new EditPatientForm(hospitalService);
+            }
+        });
         
 
         JButton viewPatientButton = createMenuButton("View Patient", "Click to view patient");
+        viewPatientButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new ViewPatientForm(hospitalService);
+            }
+        });
 
         JButton backButton = createMenuButton("Back", "Click to back to menu");
         backButton.addActionListener(new ActionListener() {
@@ -140,5 +151,3 @@ public class PatientModule extends JFrame {
 
     
 }
-
-
