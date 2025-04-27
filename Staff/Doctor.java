@@ -1,4 +1,3 @@
-package Assignment;
 import java.util.ArrayList;
 
 class Doctor extends MedicalProfessional {
@@ -9,11 +8,10 @@ class Doctor extends MedicalProfessional {
     
     public Doctor(String id, String name, String address, String phoneNumber, 
                  String email, String emergencyContact, String dateOfBirth, 
-                 char gender, String employeeId, double salary, String joinDate, 
+                 char gender, String employeeId, String salary, String joinDate, 
                  String department, String qualification, String specialization, 
-                 int yearsOfExperience) {
-        super(id, name, address, phoneNumber, email, emergencyContact, dateOfBirth, 
-              gender, employeeId, salary, joinDate, department, qualification);
+                 int yearsOfExperience){
+        super(id, name, address, phoneNumber, email, emergencyContact, dateOfBirth, gender, employeeId, salary, joinDate, department, qualification);
         this.specialization = specialization;
         this.yearsOfExperience = yearsOfExperience;
         this.patientList = new ArrayList<>();
@@ -22,7 +20,7 @@ class Doctor extends MedicalProfessional {
 
     // Getters and Setters
     public String getSpecialization() {
-        return specialization;
+        return this.specialization;
     }
 
     public void setSpecialization(String specialization) {
@@ -30,7 +28,7 @@ class Doctor extends MedicalProfessional {
     }
 
     public int getYearsOfExperience() {
-        return yearsOfExperience;
+        return this.yearsOfExperience;
     }
 
     public void setYearsOfExperience(int yearsOfExperience) {
@@ -38,11 +36,11 @@ class Doctor extends MedicalProfessional {
     }
     
     public ArrayList<Patient> getPatientList() {
-        return patientList;
+        return this.patientList;
     }
     
     public ArrayList<Appointment> getAppointments() {
-        return appointments;
+        return this.appointments;
     }
     
     // Methods to manage patients
