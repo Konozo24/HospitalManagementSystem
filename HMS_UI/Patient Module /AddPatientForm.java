@@ -1,13 +1,11 @@
-package Assignment.PatientModule;
-
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
-
-import Assignment.HospitalService;
-import Assignment.Patient;
-
 import java.awt.*;
 import java.awt.event.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 public class AddPatientForm extends JFrame {
 
@@ -62,6 +60,8 @@ public class AddPatientForm extends JFrame {
         idField = new JTextField();
         idField.setPreferredSize(new Dimension(200, 30));
         idField.setFont(new Font("Arial", Font.PLAIN, 15));
+        // Generate a default ID for convenience
+        idField.setText("P" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
 
         phoneField = new JTextField();
         phoneField.setPreferredSize(new Dimension(200, 30));
@@ -216,60 +216,56 @@ public class AddPatientForm extends JFrame {
 
     }
 
-    private JPanel createButtonPanel(){
+    private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
 
         submitButton = new JButton("Submit");
-        submitButton.setPreferredSize(new Dimension(100, 35));
-        submitButton.setFont(new Font("Arial", Font.BOLD, 15));
-
         clearButton = new JButton("Clear");
-        clearButton.setPreferredSize(new Dimension(100, 35));
-        clearButton.setFont(new Font("Arial", Font.BOLD, 15));
-
         backButton = new JButton("Back");
-        backButton.setPreferredSize(new Dimension(100, 35));
-        backButton.setFont(new Font("Arial", Font.BOLD, 15));
 
         submitButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed (ActionEvent e){
-                if (isValidForm()){
+            public void actionPerformed(ActionEvent e) {
+                if (isValidForm()) {
+                    if (idField.getText().trim().isEmpty()) {
+                        idField.setText("P" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+                    }
+
                     Patient newPatient = new Patient(
-                        idField.getText(),                 // ID
-                        nameField.getText(),               // Name
-                        addressArea.getText(),             // Address
-                        phoneField.getText(),              // Phone number
-                        emailField.getText(),              // Email
-                        emergencyContactField.getText(),           // Emergency contact
-                        dateOfBirthField.getText(),                // Date of birth
-                        getSelectedGender(),               // Gender
-                        bloodGroupComboBox.getSelectedItem().toString(), // Blood group
-                        admitDateField.getText(),          // Admit date
-                        dischargeDateField.getText(),      // Discharge date
-                        insuranceInfoArea.getText()           // Insurance info
+                        idField.getText(),
+                        nameField.getText(),
+                        addressArea.getText(),
+                        phoneField.getText(),
+                        emailField.getText(),
+                        emergencyContactField.getText(),
+                        dateOfBirthField.getText(),
+                        getSelectedGender(),
+                        bloodGroupComboBox.getSelectedItem().toString(),
+                        admitDateField.getText(),
+                        dischargeDateField.getText(),
+                        insuranceInfoArea.getText()
                     );
 
                     hospitalService.addPatient(newPatient);
-                    JOptionPane.showMessageDialog(null, 
-                    "Patient added successfully!\n" +
-                    "\nPatient ID: " + newPatient.getPatientId() +
-                    "\nName: " + nameField.getText());
+                    JOptionPane.showMessageDialog(null,
+                        "Patient added successfully!\n" +
+                        "\nPatient ID: " + newPatient.getPatientId() +
+                        "\nName: " + nameField.getText());
                     clearForm();
                 }
             }
         });
-    
+
         clearButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 clearForm();
             }
         });
 
         backButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
@@ -281,18 +277,14 @@ public class AddPatientForm extends JFrame {
         return buttonPanel;
     }
 
-
-    // Convert selected gender to character
-    private char getSelectedGender(){
-        if (MaleButton.isSelected()){
+    private char getSelectedGender() {
+        if (MaleButton.isSelected()) {
             return 'M';
-        } else if (FemaleButton.isSelected()){
+        } else if (FemaleButton.isSelected()) {
             return 'F';
         } else return 'N';
     }
 
-
-    // Checks whether all the information is filled
     private boolean isValidForm() {
         if (
             nameField.getText().trim().isEmpty() ||
@@ -301,22 +293,52 @@ public class AddPatientForm extends JFrame {
             addressArea.getText().trim().isEmpty() ||
             emergencyContactField.getText().trim().isEmpty() ||
             dateOfBirthField.getText().trim().isEmpty() ||
+            idField.getText().trim().isEmpty() ||
             (!MaleButton.isSelected() && !FemaleButton.isSelected()) ||
-            bloodGroupComboBox.getSelectedIndex() == -1 || 
+            bloodGroupComboBox.getSelectedIndex() == -1 ||
             admitDateField.getText().trim().isEmpty() ||
-            dischargeDateField.getText().trim().isEmpty() ||
             insuranceInfoArea.getText().trim().isEmpty()
         ) {
-            JOptionPane.showMessageDialog(this, "Please fill in all the information.", "Missing Info", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please fill in all the required information.", "Missing Info", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-    
+
+        if (!DateValidator.isValidDate(dateOfBirthField.getText())) {
+            JOptionPane.showMessageDialog(this, "Invalid Date of Birth format. Please use YYYY-MM-DD.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        if (!DateValidator.isValidDate(admitDateField.getText())) {
+            JOptionPane.showMessageDialog(this, "Invalid Admit Date format. Please use YYYY-MM-DD.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        if (!dischargeDateField.getText().trim().isEmpty() && !DateValidator.isValidDate(dischargeDateField.getText())) {
+            JOptionPane.showMessageDialog(this, "Invalid Discharge Date format. Please use YYYY-MM-DD.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        // Additional check to ensure discharge date is not before admit date
+        if (!dischargeDateField.getText().trim().isEmpty()) {
+            try {
+                Date admitDate = new SimpleDateFormat("yyyy-MM-dd").parse(admitDateField.getText());
+                Date dischargeDate = new SimpleDateFormat("yyyy-MM-dd").parse(dischargeDateField.getText());
+                if (dischargeDate.before(admitDate)) {
+                    JOptionPane.showMessageDialog(this, "Discharge Date cannot be before Admit Date.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+                    return false;
+                }
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(this, "Invalid date format. Please use YYYY-MM-DD.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+        }
+
         return true;
     }
 
-    private void clearForm(){
+    private void clearForm() {
         nameField.setText("");
-        idField.setText("");
+        idField.setText("P" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
         addressArea.setText("");
         phoneField.setText("");
         emailField.setText("");
@@ -328,6 +350,4 @@ public class AddPatientForm extends JFrame {
         dischargeDateField.setText("");
         insuranceInfoArea.setText("");
     }
-
 }
-
