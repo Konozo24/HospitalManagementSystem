@@ -114,7 +114,7 @@ public class HospitalManagementUI extends JFrame {
         JButton medicalRecordButton = createMenuButton("Medical Record", "Click to enter Medical Record Module");
         medicalRecordButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                new AddMedicalRecord(hospitalService);
+                new MedicalRecordModule(hospitalService);
             }
         });
 
