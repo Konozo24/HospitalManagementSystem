@@ -1,4 +1,4 @@
-package Assignment;
+
 
 import java.util.List;
 import java.util.ArrayList;
@@ -64,12 +64,12 @@ public class HospitalService {
         System.out.println("Doctor removed successfully: " + doctor.getName());
     }
 
-    public Doctor findDoctorById(Doctor doctor) {
-        if (doctor == null || doctor.getId() == null) {
+    public Doctor findDoctorById(String doctorID) {
+        if (doctorID == null) {
             throw new IllegalArgumentException("Doctor ID is null");
         }
         
-        return hospital.findDoctorById(doctor.getId());
+        return hospital.findDoctorById(doctorID);
     }
 
     public List<Doctor> viewAllDoctors() {
@@ -126,11 +126,11 @@ public class HospitalService {
         System.out.println("Patient removed successfully: " + patient.getName());
     }   
 
-    public Patient findPatientById(String patient){
-        if (patient == null || patient.getId() == null) {
+    public Patient findPatientById(String patientID){
+        if (patientID == null) {
             throw new IllegalArgumentException("Patient ID is null");
         }
-       return hospital.findPatientById(patient.getId());   
+       return hospital.findPatientById(patientID);   
     }
 
     public List<Patient> viewAllPatients() {
@@ -186,11 +186,11 @@ public class HospitalService {
         System.out.println("Medical record removed successfully: " + record.getRecordId());
     }
 
-    public MedicalRecord findMedicalRecordById(String recordId){
-        if (recordId == null || recordId == null) {
+    public MedicalRecord findMedicalRecordById(String recordID){
+        if (recordID == null) {
             throw new IllegalArgumentException("Record ID is null");
         }
-        return hospital.findMedicalRecordById(recordId);
+        return hospital.findMedicalRecordById(recordID);
     }
 
     public List<MedicalRecord> viewAllMedicalRecords() {
