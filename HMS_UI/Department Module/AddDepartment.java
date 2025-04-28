@@ -1,10 +1,10 @@
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.util.List;
+import javax.swing.*;
 
 public class AddDepartment extends JFrame {
-    private JTextField idField, nameField, locationField, headDoctorField;
+    private JTextField idField, nameField, locationField;
+    private JComboBox<Doctor> headDoctorComboBox;
     private JButton addButton, clearButton, backButton;
     private HospitalService hospitalService;
 
@@ -12,7 +12,7 @@ public class AddDepartment extends JFrame {
         this.hospitalService = hospitalService;
 
         setTitle("Add Department");
-        setSize(450, 350);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
@@ -40,7 +40,13 @@ public class AddDepartment extends JFrame {
         idField = new JTextField(20);
         nameField = new JTextField(20);
         locationField = new JTextField(20);
-        headDoctorField = new JTextField(20);
+        headDoctorComboBox = new JComboBox<>();
+
+        // Load all doctors into ComboBox
+        List<Doctor> doctors = hospitalService.viewAllDoctors();
+        for (Doctor doc : doctors) {
+            headDoctorComboBox.addItem(doc);
+        }
 
         gbc.gridx = 0; gbc.gridy = 0;
         panel.add(new JLabel("Department ID:"), gbc);
@@ -60,7 +66,7 @@ public class AddDepartment extends JFrame {
         gbc.gridx = 0; gbc.gridy = 3;
         panel.add(new JLabel("Head Doctor:"), gbc);
         gbc.gridx = 1;
-        panel.add(headDoctorField, gbc);
+        panel.add(headDoctorComboBox, gbc);
 
         return panel;
     }
@@ -86,14 +92,14 @@ public class AddDepartment extends JFrame {
         String id = idField.getText().trim();
         String name = nameField.getText().trim();
         String location = locationField.getText().trim();
-        String headDoctor = headDoctorField.getText().trim();
+        Doctor selectedDoctor = (Doctor) headDoctorComboBox.getSelectedItem();
 
-        if (id.isEmpty() || name.isEmpty() || location.isEmpty() || headDoctor.isEmpty()) {
+        if (id.isEmpty() || name.isEmpty() || location.isEmpty() || selectedDoctor == null) {
             JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        Department newDepartment = new Department(id, name, location, headDoctor);
+        Department newDepartment = new Department(id, name, location, selectedDoctor.getName());
 
         try {
             hospitalService.addDepartment(newDepartment);
@@ -108,6 +114,8 @@ public class AddDepartment extends JFrame {
         idField.setText("");
         nameField.setText("");
         locationField.setText("");
-        headDoctorField.setText("");
+        if (headDoctorComboBox.getItemCount() > 0) {
+            headDoctorComboBox.setSelectedIndex(0);
+        }
     }
 }
