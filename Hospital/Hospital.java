@@ -30,7 +30,7 @@ public class Hospital{
         this.medicalRecords = new ArrayList<>();
 
         addPatient(new Patient("001", "John Doe", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'F', "A+", "2000-200-200", "200-2301-231", "Hello"));
-        addDoctor(new Doctor("0012", "Lebron", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'M', "D011", 2500.00, "2025-1-1", "Doctor", "SPM", "Cardiology", 5));
+        addDoctor(new Doctor("0012", "Lebron", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'M', 2500.00, "2025-1-1", "Doctor", "SPM", "Cardiology", 5));
         
     }
 
@@ -111,7 +111,7 @@ public class Hospital{
 
     public Doctor findDoctorById(String doctorId){
         for(Doctor d : doctors){
-            if(d.getId().equals(doctorId)){
+            if(d.getEmployeeId().equals(doctorId)){
                 return d;
             }
         }
