@@ -67,7 +67,7 @@ public class DeleteDoctorForm extends JFrame {
                     return;
                 }
 
-                boolean deleted = hospitalService.deleteDoctor(doctorId);
+                boolean deleted = hospitalService.removeDoctor(doctorId);
                 if (deleted) {
                     JOptionPane.showMessageDialog(DeleteDoctorForm.this, "Doctor with ID " + doctorId + " deleted successfully.");
                     idField.setText("");
