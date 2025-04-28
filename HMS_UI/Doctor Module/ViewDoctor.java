@@ -1,186 +1,95 @@
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.awt.event.*;
 
-public class ViewNurse extends JFrame {
-    private JTable nurseTable;
-    private JTextField nurseSearchField;
+
+public class ViewDoctorForm extends JFrame {
+
+    private JTextField idField;
+    private JTextArea resultArea;
+    private JButton searchButton, clearButton, backButton;
     private HospitalService hospitalService;
-    private JButton backButton;
-    
-    private DefaultTableModel tableModel;
 
-    public ViewNurse(HospitalService hospitalService){
+    public ViewDoctorForm(HospitalService hospitalService) {
         this.hospitalService = hospitalService;
-        this.setTitle("View Nurse");
-        this.setSize(1200, 750);
-        this.setLayout(new GridBagLayout());
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // close only this window
 
+        setTitle("View Doctor Details");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
 
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        JLabel titleLabel = new JLabel("View Doctor Information");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titleLabel, BorderLayout.NORTH);
 
-        JLabel titleLabel = new JLabel("View Nurse");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(0,0,15,0));
+        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        JLabel idLabel = new JLabel("Enter Doctor ID:");
+        idLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        idField = new JTextField(20);
+        idField.setFont(new Font("Arial", Font.PLAIN, 16));
+        searchButton = new JButton("Search");
 
-        JPanel formPanel = createFormPanel();
-        JPanel buttonPanel = createButtonPanel();
+        inputPanel.add(idLabel);
+        inputPanel.add(idField);
+        inputPanel.add(searchButton);
+        add(inputPanel, BorderLayout.NORTH);
 
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
-        mainPanel.add(formPanel, BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        resultArea = new JTextArea();
+        resultArea.setEditable(false);
+        resultArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        resultArea.setBorder(BorderFactory.createTitledBorder("Doctor Details"));
+        add(new JScrollPane(resultArea), BorderLayout.CENTER);
 
-        this.add(mainPanel);
-        this.setLocationRelativeTo(null); // center the window
-        this.setVisible(true);
-    }
-
-
-    private JPanel createFormPanel(){
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
-            BorderFactory.createEmptyBorder(15, 15, 15, 15)
-        ));
-
-        nurseSearchField = new JTextField();
-        nurseSearchField.setPreferredSize(new Dimension(200, 30));
-        nurseSearchField.setFont(new Font("Arial", Font.PLAIN, 15));
-
-        nurseSearchField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e ){
-                if (e.getKeyCode() == KeyEvent.VK_ENTER){
-                    String searchText = nurseSearchField.getText().trim();
-
-                    // Remove all existing rows
-                    tableModel.setRowCount(0);
-
-                    if(searchText.isEmpty()){
-                        loadAllNurses(tableModel);
-                        return;
-                    }  
-
-                    boolean found = false;
-                    for (Nurse n : hospitalService.viewAllNurses()){
-                        if (n.getEmployeeId().equalsIgnoreCase(searchText)){
-                            tableModel.addRow(new Object[]{
-                                n.getEmployeeId(),
-                                n.getName(),
-                                n.getDepartment(),
-                                n.getAssignedDoctor(),
-                                n.getShift(),
-                                n
-                            });
-                            found = true;
-                            break;
-                        } 
-                    }
-
-                    if(found){
-                        JOptionPane.showMessageDialog(formPanel, "Nurse successfully Found", "Search Result", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(formPanel,"No Nurse found with ID: " + searchText,"Search Result", JOptionPane.INFORMATION_MESSAGE);
-                        loadAllNurses(tableModel);
-                    }
-                }
-            }
-        });
-        
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10,10,10,10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(new JLabel("Search Nurse: "), gbc);
-
-        gbc.gridx = 1;
-        formPanel.add(nurseSearchField, gbc);
-
-        JPanel tablePanel = new JPanel(new BorderLayout());
-        tablePanel.setBorder(BorderFactory.createTitledBorder(
-        BorderFactory.createEtchedBorder(),
-        "Available Nurse",
-        TitledBorder.LEFT,
-        TitledBorder.TOP,
-        new Font("Arial", Font.BOLD, 14)
-        ));
-
-        String[] col = {"Employee ID", "Name", "Department", "Assigned Doctor", "Shift", "Object"};
-        tableModel = new DefaultTableModel(col, 0){
-            @Override
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-        };
-        loadAllNurses(tableModel);
-        
-
-        nurseTable = new JTable(tableModel);
-        nurseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        nurseTable.setFont(new Font("Arial", Font.PLAIN, 14));
-        nurseTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
-        nurseTable.setRowHeight(25);
-        nurseTable.getColumnModel().getColumn(5).setMinWidth(0);
-        nurseTable.getColumnModel().getColumn(5).setMaxWidth(0);
-        nurseTable.getColumnModel().getColumn(5).setWidth(0);
-
-        JScrollPane tablePane = new JScrollPane(nurseTable);
-        tablePane.setPreferredSize(new Dimension(650, 300));
-        tablePanel.add(tablePane, BorderLayout.CENTER);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        formPanel.add(tablePanel, gbc);
-
-        return formPanel;
-    }   
-
-    private JPanel createButtonPanel(){
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        clearButton = new JButton("Clear");
         backButton = new JButton("Back");
-        backButton.setPreferredSize(new Dimension(100, 35));
-        backButton.setFont(new Font("Arial", Font.BOLD, 15));
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                dispose();
-            }
-        });
-
+        buttonPanel.add(clearButton);
         buttonPanel.add(backButton);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        return buttonPanel;
+        // Button Actions
+        searchButton.addActionListener(e -> searchDoctor());
+        clearButton.addActionListener(e -> {
+            idField.setText("");
+            resultArea.setText("");
+        });
+        backButton.addActionListener(e -> dispose());
+
+        setVisible(true);
     }
 
+    private void searchDoctor() {
+        String doctorId = idField.getText().trim();
+        if (doctorId.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a Doctor ID.", "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    private void loadAllNurses(DefaultTableModel tableModel){
-        for (Nurse n : hospitalService.viewAllNurses()){
-            tableModel.addRow(new Object[]{
-                n.getEmployeeId(),
-                n.getName(),
-                n.getDepartment(),
-                n.getAssignedDoctor(),
-                n.getShift(),
-                n
-            });
+
+        Doctor doctor = hospitalService.findDoctorById(doctorId);
+        if (doctor != null) {
+            StringBuilder details = new StringBuilder();
+            details.append("ID       : ").append(doctor.getId()).append("\n");
+            details.append("Name            : ").append(doctor.getName()).append("\n");
+            details.append("Address         : ").append(doctor.getAddress()).append("\n");
+            details.append("Phone           : ").append(doctor.getPhoneNumber()).append("\n");
+            details.append("Email           : ").append(doctor.getEmail()).append("\n");
+            details.append("Emergency       : ").append(doctor.getEmergencyContact()).append("\n");
+            details.append("Gender          : ").append(doctor.getGender()).append("\n");
+            details.append("Department      : ").append(doctor.getDepartment()).append("\n");
+            details.append("Specialization  : ").append(doctor.getSpecialization()).append("\n");
+            details.append("Qualification   : ").append(doctor.getQualification()).append("\n");
+            details.append("Joining Date    : ").append(doctor.getJoinDate()).append("\n");
+            details.append("Years of experience : ").append(doctor.getYearsOfExperience()).append("\n");
+
+            resultArea.setText(details.toString());
+        } else {
+            resultArea.setText("");
+            JOptionPane.showMessageDialog(this, "Doctor not found.", "Not Found", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
