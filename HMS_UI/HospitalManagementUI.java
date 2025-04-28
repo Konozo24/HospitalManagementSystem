@@ -114,7 +114,17 @@ public class HospitalManagementUI extends JFrame {
         JButton medicalRecordButton = createMenuButton("Medical Record", "Click to enter Medical Record Module");
         medicalRecordButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                new MedicalRecordModule(hospitalService);
+                setVisible(false);
+                MedicalRecordModule module = new MedicalRecordModule(hospitalService);
+        
+                // When the patient module is closed, make the main menu visible again
+                module.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent we) {
+                        setVisible(true);  // Make the main menu visible again when the module is closed
+                    }
+                });
+                module.setVisible(true);  // Show the Patient Module
             }
         });
 
@@ -136,7 +146,38 @@ public class HospitalManagementUI extends JFrame {
         });
 
         JButton nurseButton = createMenuButton("Nurse", "Click to enter Nurse Module");
+        nurseButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                setVisible(false);
+                NurseModule module = new NurseModule(hospitalService);
+        
+                // When the patient module is closed, make the main menu visible again
+                module.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent we) {
+                        setVisible(true);  // Make the main menu visible again when the module is closed
+                    }
+                });
+                module.setVisible(true);  // Show the Patient Module
+            }
+        });
+
         JButton departmentButton = createMenuButton("Department", "Click to enter Department Module");
+        departmentButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                setVisible(false);
+                DepartmentModule module = new DepartmentModule(hospitalService);
+        
+                // When the patient module is closed, make the main menu visible again
+                module.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent we) {
+                        setVisible(true);  // Make the main menu visible again when the module is closed
+                    }
+                });
+                module.setVisible(true);  // Show the Patient Module
+            }
+        });
         
         // Add buttons to menu panel
         menuPanel.add(patientButton);
