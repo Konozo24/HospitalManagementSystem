@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class EditDoctorForm extends JFrame {
 
-    private JTextField nameField, idField, addressField, phoneField, emailField, emergencyContactField, dateOfBirthField, employeeIdField, salaryField, specializationField, qualificationField, joiningDateField,yearsOfExperienceField;
+    private JTextField doctorIDField, idField, nameField, phoneField, emailField, specializationField, qualificationField, joiningDateField, yearsOfExperienceField;
     private JRadioButton MaleButton, FemaleButton;
     private JComboBox<String> departmentComboBox;
     private JButton updateButton, clearButton, backButton;
@@ -26,44 +26,45 @@ public class EditDoctorForm extends JFrame {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(titleLabel, BorderLayout.NORTH);
 
+        // Input panel for entering Doctor ID to search
         JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         JLabel idLabel = new JLabel("Enter Doctor ID:");
         idLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        idField = new JTextField(20);
-        idField.setFont(new Font("Arial", Font.PLAIN, 16));
+        doctorIDField = new JTextField(20);
+        doctorIDField.setFont(new Font("Arial", Font.PLAIN, 16));
         JButton searchButton = new JButton("Search");
 
         inputPanel.add(idLabel);
-        inputPanel.add(idField);
+        inputPanel.add(doctorIDField);
         inputPanel.add(searchButton);
         add(inputPanel, BorderLayout.NORTH);
 
+        // Form fields for editing doctor details
         JPanel formPanel = new JPanel(new GridLayout(10, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         idField = new JTextField();
         nameField = new JTextField();
         phoneField = new JTextField();
-        addressField = new JTextField();
-        emergencyContactField = new JTextField();
-        dateOfBirthField = new JTextField();
-        employeeIdField = new JTextField();
-        salaryField = new JTextField();
         emailField = new JTextField();
         specializationField = new JTextField();
         qualificationField = new JTextField();
         joiningDateField = new JTextField();
         yearsOfExperienceField = new JTextField();
 
-        MaleButton = new JRadioButton("M");
-        FemaleButton = new JRadioButton("F");
+        // Gender radio buttons
+        MaleButton = new JRadioButton("Male");
+        FemaleButton = new JRadioButton("Female");
         genderGroup = new ButtonGroup();
         genderGroup.add(MaleButton);
         genderGroup.add(FemaleButton);
 
+        // Department combo box
         String[] departments = {"General Medicine", "Cardiology", "Neurology", "Orthopedics", "Pediatrics", "Surgery"};
         departmentComboBox = new JComboBox<>(departments);
 
+        formPanel.add(new JLabel("ID: "));
+        formPanel.add(idField);
         formPanel.add(new JLabel("Name:"));
         formPanel.add(nameField);
         formPanel.add(new JLabel("Phone:"));
@@ -109,7 +110,7 @@ public class EditDoctorForm extends JFrame {
     }
 
     private void searchDoctor() {
-        String doctorId = idField.getText().trim();
+        String doctorId = doctorIDField.getText().trim();
         if (doctorId.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a Doctor ID to search.", "Input Error", JOptionPane.WARNING_MESSAGE);
             return;
@@ -117,24 +118,24 @@ public class EditDoctorForm extends JFrame {
 
         Doctor doctor = hospitalService.findDoctorById(doctorId);
         if (doctor != null) {
-            nameField.setText(doctor.getName());
+            // Populate fields with doctor data
             idField.setText(doctor.getId());
-            addressField.setText(doctor.getAddress());
+            nameField.setText(doctor.getName());
             phoneField.setText(doctor.getPhoneNumber());
             emailField.setText(doctor.getEmail());
-            emergencyContactField.setText(doctor.getEmergencyContact());
-            dateOfBirthField.setText(doctor.getDateOfBirth());
-            employeeIdField.setText(doctor.getEmployeeId());
-            salaryField.setText(String.valueOf(doctor.getSalary()));
             specializationField.setText(doctor.getSpecialization());
             qualificationField.setText(doctor.getQualification());
             joiningDateField.setText(doctor.getJoinDate());
-            ParseInt(yearsOfExperienceField.getText().trim());
-            if (doctor.getGender() == "M") {
+            yearsOfExperienceField.setText(String.valueOf(doctor.getYearsOfExperience()));
+
+            // Set gender radio button
+            if (doctor.getGender() == 'M' || doctor.getGender() == 'm') {
                 MaleButton.setSelected(true);
-            } else if(doctor.getGender() == 'F'){
+            } else {
                 FemaleButton.setSelected(true);
             }
+
+            // Set department combo box
             for (int i = 0; i < departmentComboBox.getItemCount(); i++) {
                 if (departmentComboBox.getItemAt(i).equals(doctor.getDepartment())) {
                     departmentComboBox.setSelectedIndex(i);
@@ -147,41 +148,43 @@ public class EditDoctorForm extends JFrame {
     }
 
     private void updateDoctorDetails() {
-        String doctorId = idField.getText().trim();
+        String doctorId = doctorIDField.getText().trim();
+        Doctor doctor = hospitalService.findDoctorById(doctorId);
         if (doctorId.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Doctor ID cannot be empty.", "Input Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+        String id = idField.getText().trim();
         String name = nameField.getText().trim();
-        String phoneNumber = phoneField.getText().trim();
+        String phone = phoneField.getText().trim();
         String email = emailField.getText().trim();
-        String emergencyContact = emergencyContactField.getText().trim();
-        String dateOfBirth = dateOfBirthField.getText().trim();
-        String employeeId = employeeIdField.getText().trim();
-        double salary = Double.parseDouble(salaryField.getText().trim());
-        String address = addressField.getText().trim();
         String specialization = specializationField.getText().trim();
         String qualification = qualificationField.getText().trim();
-        String joinDate = joiningDateField.getText().trim();
+        String joiningDate = joiningDateField.getText().trim();
         int yearsOfExperience = Integer.parseInt(yearsOfExperienceField.getText().trim());
-        char gender = getSelectedGender();
+        char gender = MaleButton.isSelected() ? 'M' : 'F';
         String department = (String) departmentComboBox.getSelectedItem();
 
-        Doctor updatedDoctor = new Doctor(name,doctorId,address,phoneNumber,email,emergencyContact,dateOfBirth,gender,employeeId,salary,joinDate,department,qualification,specialization,yearsOfExperience);
-        boolean success = hospitalService.updateDoctorDetails(updatedDoctor);
+        doctor.setId(id);
+        doctor.setName(name);
+        doctor.setPhoneNumber(phone);
+        doctor.setEmail(email);
+        doctor.setSpecialization(specialization);
+        doctor.setQualification(qualification);
+        doctor.setJoinDate(joiningDate);
+        doctor.setYearsOfExperience(yearsOfExperience);
+        doctor.setGender(gender);
+        doctor.setDepartment(department);
 
-        if (success) {
-            JOptionPane.showMessageDialog(this, "Doctor details updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-            clearFields();
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to update doctor details.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
-    private char getSelectedGender() {
+        
 
-        throw new UnsupportedOperationException("Unimplemented method 'getSelectedGender'");
+        
+        JOptionPane.showMessageDialog(this, "Doctor details updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        clearFields();
+        
+        
     }
 
     private void clearFields() {
@@ -189,20 +192,11 @@ public class EditDoctorForm extends JFrame {
         nameField.setText("");
         phoneField.setText("");
         emailField.setText("");
-        emergencyContactField.setText("");
-        dateOfBirthField.setText("");
-        employeeIdField.setText("");
-        salaryField.setText("");
-        addressField.setText("");
         specializationField.setText("");
         qualificationField.setText("");
         joiningDateField.setText("");
         yearsOfExperienceField.setText("");
         genderGroup.clearSelection();
         departmentComboBox.setSelectedIndex(0);
-    }
-
-    private void ParseInt(String trim) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
