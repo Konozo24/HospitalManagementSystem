@@ -170,7 +170,7 @@ public class AddDoctorForm extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
 
         submitButton.addActionListener(new ActionListener() {
-            int yearsOfExperience = Integer.parseInt(yearsOfExperienceField.getText().trim());
+            
             @Override
             public void actionPerformed (ActionEvent e){
                 if (isValidForm()){
@@ -189,7 +189,7 @@ public class AddDoctorForm extends JFrame {
                         (String) departmentComboBox.getSelectedItem(),
                         qualificationField.getText().trim(),
                         specializationField.getText().trim(),
-                        yearsOfExperience
+                        Integer.parseInt(yearsOfExperienceField.getText().trim())
                     );
 
                     hospitalService.addDoctor(newDoctor);
