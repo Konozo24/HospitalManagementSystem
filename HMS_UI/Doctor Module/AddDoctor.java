@@ -41,11 +41,6 @@ public class AddDoctorForm extends JFrame {
         this.setVisible(true);
     }
 
-    private char getSelectedGender(){
-        if(MaleButton.isSelected()) return "M";
-        if(FemaleButton.isSelected()) return "F";
-        return "";
-    }
 
     private void clearForm() {
         JTextField[] fields = {
@@ -175,31 +170,32 @@ public class AddDoctorForm extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
 
         submitButton.addActionListener(new ActionListener() {
+            int yearsOfExperience = Integer.parseInt(yearsOfExperienceField.getText().trim());
             @Override
             public void actionPerformed (ActionEvent e){
                 if (isValidForm()){
                     Doctor newDoctor = new Doctor(
-                        idField.getText(),                
-                        nameField.getText(),               
-                        addressField.getText(),
-                        phoneField.getText(),             
-                        emailField.getText(),
-                        emergencyContactField.getText(),            
-                        dateOfBirthField.getText(),
+                        idField.getText().trim(),                
+                        nameField.getText().trim(),               
+                        addressField.getText().trim(),
+                        phoneField.getText().trim(),             
+                        emailField.getText().trim(),
+                        emergencyContactField.getText().trim(),            
+                        dateOfBirthField.getText().trim(),
                         getSelectedGender(),
-                        employeeIdField.getText(),
-                        salaryField.getText(),
-                        joiningDateField.getText(),
-                        departmentComboBox.getSelectedItem().toString(),
-                        qualificationField.getText(),
-                        specializationField.getText(),
-                        ParseInt(yearsOfExperienceField.getText().trim())
+                        employeeIdField.getText().trim(),
+                        Double.parseDouble(salaryField.getText().trim()),
+                        joiningDateField.getText().trim(),
+                        (String) departmentComboBox.getSelectedItem(),
+                        qualificationField.getText().trim(),
+                        specializationField.getText().trim(),
+                        yearsOfExperience
                     );
 
                     hospitalService.addDoctor(newDoctor);
                     JOptionPane.showMessageDialog(null, 
                     "Doctor added successfully!\n" +
-                    "\nDoctor ID: " + newDoctor.getDoctorId() +
+                    "\nDoctor ID: " + newDoctor.getEmployeeId() +
                     "\nName: " + newDoctor.getName());
                     clearForm();
                 }
