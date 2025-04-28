@@ -41,17 +41,15 @@ public class AddDoctorForm extends JFrame {
         this.setVisible(true);
     }
 
-    private String getSelectedGender(){
-        if(MaleButton.isSelected()) return "Male";
-        if(FemaleButton.isSelected()) return "Female";
+    private char getSelectedGender(){
+        if(MaleButton.isSelected()) return "M";
+        if(FemaleButton.isSelected()) return "F";
         return "";
     }
 
     private void clearForm() {
         JTextField[] fields = {
-            idField, nameField, phoneField, emailField,
-            specializationField, qualificationField,
-            joiningDateField, yearsOfExperienceField
+            idField, nameField, phoneField, emailField,addressField,emergencyContactField,dateOfBirthField,employeeIdField,salaryField,specializationField,qualificationField,joiningDateField,yearsOfExperienceField
         };
         for (JTextField field : fields) {
             field.setText("");
@@ -195,7 +193,7 @@ public class AddDoctorForm extends JFrame {
                         departmentComboBox.getSelectedItem().toString(),
                         qualificationField.getText(),
                         specializationField.getText(),
-                        yearsOfExperienceField.ParseInt()
+                        ParseInt(yearsOfExperienceField.getText().trim())
                     );
 
                     hospitalService.addDoctor(newDoctor);
@@ -229,6 +227,15 @@ public class AddDoctorForm extends JFrame {
         return buttonPanel;
     }
 
+    private char getSelectedGender(){
+        if (MaleButton.isSelected()){
+            return 'M';
+        } else if (FemaleButton.isSelected()){
+            return 'F';
+        } else return 'N';
+    }
+
+
     private boolean isValidForm() {
         if (
             nameField.getText().trim().isEmpty() ||
@@ -243,7 +250,7 @@ public class AddDoctorForm extends JFrame {
             departmentComboBox.getSelectedIndex() == -1 || 
             specializationField.getText().trim().isEmpty() ||
             qualificationField.getText().trim().isEmpty() ||
-            joiningDateField.getText().trim().isEmpty()||
+            joiningDateField.getText().trim().isEmpty() ||
             yearsOfExperienceField.getText().trim().isEmpty()
         ) {
             JOptionPane.showMessageDialog(this, "Please fill in all the information.", "Missing Info", JOptionPane.WARNING_MESSAGE);
