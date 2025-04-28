@@ -69,19 +69,21 @@ public class ViewDoctorForm extends JFrame {
             return;
         }
 
-        Doctor doctor = hospitalService.getDoctorById(doctorId);
+        Doctor doctor = hospitalService.findDoctorById(doctorId);
         if (doctor != null) {
             StringBuilder details = new StringBuilder();
             details.append("Doctor ID       : ").append(doctor.getId()).append("\n");
             details.append("Name            : ").append(doctor.getName()).append("\n");
+            details.append("Address         : ").append(doctor.getAddress()).append("\n");
             details.append("Phone           : ").append(doctor.getPhoneNumber()).append("\n");
             details.append("Email           : ").append(doctor.getEmail()).append("\n");
+            details.append("Emergency       : ").append(doctor.getEmergencyContact()).append("\n");
             details.append("Gender          : ").append(doctor.getGender()).append("\n");
             details.append("Department      : ").append(doctor.getDepartment()).append("\n");
             details.append("Specialization  : ").append(doctor.getSpecialization()).append("\n");
             details.append("Qualification   : ").append(doctor.getQualification()).append("\n");
             details.append("Joining Date    : ").append(doctor.getJoinDate()).append("\n");
-            details.append("Years of experience : ").append(doctor.getYearsOfExperience()).append("\n");
+            details.append("Years of experience : ").append(doctor.getyearsOfExperience()).append("\n");
 
             resultArea.setText(details.toString());
         } else {
