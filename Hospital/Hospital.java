@@ -237,11 +237,11 @@ public class Hospital{
 
     public void loadSampleDate(){
         addDoctor(new Doctor("0012", "Lebron", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'M', 2500.00, "2025-1-1", "Doctor", "SPM", "Cardiology", 5));
-        addDepartment(new Department("D1", "Cardiology", "0193481934", "Lebron"));
-        addDepartment(new Department("D2", "General Medicine", "0193481934", "Lebron"));
-        addDepartment(new Department("D3", "Neurology", "0193481934", "Lebron"));
-        addDepartment(new Department("D4", "Orthopedics", "0193481934", "Lebron"));
-        addDepartment(new Department("D5", "Pediatrics", "0193481934", "Lebron"));
-        addDepartment(new Department("D6", "Surgery", "0193481934", "Lebron"));
+        addDepartment(new Department("DP1", "Cardiology", "Kuala Lumpur", "Lebron"));
+        addDepartment(new Department("DP2", "General Medicine", "Kuala Lumpur", "Lebron"));
+        addDepartment(new Department("DP3", "Neurology", "Kuala Lumpur", "Lebron"));
+        addDepartment(new Department("DP4", "Orthopedics", "Kuala Lumpur", "Lebron"));
+        addDepartment(new Department("DP5", "Pediatrics", "Kuala Lumpur", "Lebron"));
+        addDepartment(new Department("DP6", "Surgery", "Kuala Lumpur", "Lebron"));
     }
 }
