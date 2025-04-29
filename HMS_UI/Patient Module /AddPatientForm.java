@@ -333,7 +333,7 @@ public class AddPatientForm extends JFrame {
 
     private void clearForm() {
         nameField.setText("");
-        idField.setText("P" + (hospitalService.viewAllPatients().size() + 1));
+        idField.setText("");
         addressArea.setText("");
         phoneField.setText("");
         emailField.setText("");
