@@ -33,12 +33,27 @@ public class HospitalService {
         System.out.println("Department removed successfully: " + department.getName());
     }
 
-    public Department findDepartmentById(Department department) {
-        if (department == null || department.getDepartmentId() == null) {
+    public void editDepartment(Department updatedDepartment) {
+        if (updatedDepartment == null || updatedDepartment.getDepartmentId() == null) {
+            throw new IllegalArgumentException("Department or Department ID is null");
+        }
+    
+        Department existing = hospital.findDepartmentById(updatedDepartment.getDepartmentId());
+        if (existing == null) {
+            throw new IllegalArgumentException("Department not found");
+        }
+    
+        existing.setName(updatedDepartment.getName());
+        existing.setLocation(updatedDepartment.getLocation());
+        existing.setHeadDoctor(updatedDepartment.getHeadDoctor());
+    }
+
+    public Department findDepartmentById(String departmentID) {
+        if (departmentID == null) {
             throw new IllegalArgumentException("Department ID is null");
         }
         
-        return hospital.findDepartmentById(department.getDepartmentId());
+        return hospital.findDepartmentById(departmentID);
     }
 
     public List<Department> viewAllDepartments() {
