@@ -1,241 +1,199 @@
 
 
-import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
 
-import java.awt.*;
-import java.awt.event.*;
+public class HospitalService {
+    Hospital hospital;
 
-public class HospitalManagementUI extends JFrame {
-    private Hospital hospital;
-    private HospitalService hospitalService;
-    
-    // Main panels
-    private JPanel mainPanel;
-    private JPanel headerPanel;
-    private JPanel menuPanel;
-    
-    
-    // Components
-    private JLabel hospitalNameLabel;
-    
-    
-    public HospitalManagementUI(Hospital hospital) {
+    public HospitalService(Hospital hospital) {
         if (hospital == null) {
-            throw new IllegalArgumentException("Hospital cannot be null");
+            throw new IllegalArgumentException("Hospital is empty");
+        }
+
+        this.hospital = hospital;
+    }
+
+    public void addDepartment(Department department) {
+        if (department == null) {
+            throw new IllegalArgumentException("Department is null");
+        } else if (hospital.findDepartmentById(department.getDepartmentId()) != null) {
+            throw new IllegalArgumentException("Department already exists");
+        }
+        hospital.addDepartment(department);
+        System.out.println("Department added successfully: " + department.getName());
+    }
+
+    public void removeDepartment(Department department) {
+        if (department == null) {
+            throw new IllegalArgumentException("Department is null");
+        }
+        if(!hospital.getAllDepartments().contains(department))throw new IllegalArgumentException("Department cannot be found");
+        hospital.removeDepartment(department);
+        System.out.println("Department removed successfully: " + department.getName());
+    }
+
+    public Department findDepartmentById(String departmentID) {
+        if (departmentID == null) {
+            throw new IllegalArgumentException("Department ID is null");
         }
         
-        this.hospital = hospital;
-        this.hospitalService = new HospitalService(hospital);
+        return hospital.findDepartmentById(departmentID);
+    }
+
+    public List<Department> viewAllDepartments() {
+        return new ArrayList<>(hospital.getAllDepartments());
+    }
+
+    public void addDoctor(Doctor doctor) {
+        if (doctor == null) {
+            throw new IllegalArgumentException("Doctor is null");
+        } else if (hospital.findDoctorById(doctor.getId()) != null) {
+            throw new IllegalArgumentException("Doctor already exists");
+        }
+        hospital.addDoctor(doctor);
+        System.out.println("Doctor added successfully: " + doctor.getName());
+    }
+
+    public void removeDoctor(Doctor doctor) {
+        if (doctor == null) {
+            throw new IllegalArgumentException("Doctor is null");
+        }
+        if(!hospital.getAllDoctors().contains(doctor))throw new IllegalArgumentException("Doctor cannot be found");
+        hospital.removeDoctor(doctor);
+        System.out.println("Doctor removed successfully: " + doctor.getName());
+    }
+
+    public Doctor findDoctorById(String doctorID) {
+        if (doctorID == null) {
+            throw new IllegalArgumentException("Doctor ID is null");
+        }
         
-        // Configure frame
-        setTitle("Hospital Management System");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        return hospital.findDoctorById(doctorID);
+    }
+
+    public List<Doctor> viewAllDoctors() {
+        return new ArrayList<>(hospital.getAllDoctors());
+    }
+
+    public void addNurse(Nurse nurse) {
+        if (nurse == null) {
+            throw new IllegalArgumentException("Nurse is null");
+        } else if (hospital.findNurseById(nurse.getId()) != null) {
+            throw new IllegalArgumentException("Nurse already exists");
+        }
+        hospital.addNurse(nurse);
+        System.out.println("Nurse added successfully: " + nurse.getName());
+    }
+
+    public void removeNurse(Nurse nurse) {
+        if (nurse == null) {
+            throw new IllegalArgumentException("Nurse is null");
+        }
+        if(!hospital.getAllNurses().contains(nurse))throw new IllegalArgumentException("Nurse cannot be found");
+        hospital.removeNurse(nurse);
+        System.out.println("Nurse removed successfully: " + nurse.getName());
+    }
+
+    public Nurse findNurseById(Nurse nurse) {
+        if (nurse == null || nurse.getId() == null) {
+            throw new IllegalArgumentException("Nurse ID is null");
+        }
         
-        // Initialize UI components
-        initComponents();
-        
-        // Display the frame
-        setVisible(true);
+        return hospital.findNurseById(nurse.getId());
+    }
+
+    public List<Nurse> viewAllNurses() {
+        return new ArrayList<>(hospital.getAllNurses());
+    }
+
+    public void addPatient(Patient patient) {
+        if (patient == null) {
+            throw new IllegalArgumentException("Patient is null");
+        } else if (hospital.findPatientById(patient.getId()) != null) {
+            throw new IllegalArgumentException("Patient already exists");
+        }
+        hospital.addPatient(patient);
+        System.out.println("Patient added successfully: " + patient.getName());
     }
     
-    private void initComponents() {
-        // Create main panel with BorderLayout
-        mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        // Add header panel
-        createHeaderPanel();
-        mainPanel.add(headerPanel, BorderLayout.NORTH);
-        
-        // Add menu panel
-        createMenuPanel();
-        mainPanel.add(menuPanel, BorderLayout.CENTER);
-        
+    public void removePatient(Patient patient) {
+        if (patient == null) {
+            throw new IllegalArgumentException("Patient is null");
+        }
+        if(!hospital.getAllPatients().contains(patient))throw new IllegalArgumentException("Patient cannot be found");
+        hospital.removePatient(patient);
+        System.out.println("Patient removed successfully: " + patient.getName());
+    }   
 
-        
-        // Add main panel to frame
-        add(mainPanel);
+    public Patient findPatientById(String patientID){
+        if (patientID == null) {
+            throw new IllegalArgumentException("Patient ID is null");
+        }
+       return hospital.findPatientById(patientID);   
     }
-    
-    private void createHeaderPanel() {
-        headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-        
-        // Hospital name
-        hospitalNameLabel = new JLabel(hospital.getname());
-        hospitalNameLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        hospitalNameLabel.setHorizontalAlignment(JLabel.CENTER);
-        
-        // Add to header panel
-        headerPanel.add(hospitalNameLabel, BorderLayout.CENTER);
+
+    public List<Patient> viewAllPatients() {
+        return new ArrayList<>(hospital.getAllPatients());
     }
-    
-    private void createMenuPanel() {
-        menuPanel = new JPanel(new GridLayout(3, 2, 20, 20));
-        
-        // Create menu buttons
-        JButton patientButton = createMenuButton("Patient", "Click to enter Patient Module");
-        patientButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                setVisible(false);
-                PatientModule module = new PatientModule(hospitalService);
-        
-                // When the patient module is closed, make the main menu visible again
-                module.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent we) {
-                        setVisible(true);  // Make the main menu visible again when the module is closed
-                    }
-                });
-                module.setVisible(true);  // Show the Patient Module
-                }
-        });
-            
-       
-        JButton appointmentButton = createMenuButton("Appointment", "Click to enter Appointment Module");
-        appointmentButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                setVisible(false);
-                AppointmentModule module = new AppointmentModule(hospitalService);
-        
-                // When the patient module is closed, make the main menu visible again
-                module.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent we) {
-                        setVisible(true);  // Make the main menu visible again when the module is closed
-                    }
-                });
-                module.setVisible(true);  // Show the Patient Module
-            }
-        });
 
-        JButton medicalRecordButton = createMenuButton("Medical Record", "Click to enter Medical Record Module");
-        medicalRecordButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                setVisible(false);
-                MedicalRecordModule module = new MedicalRecordModule(hospitalService);
-        
-                // When the patient module is closed, make the main menu visible again
-                module.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent we) {
-                        setVisible(true);  // Make the main menu visible again when the module is closed
-                    }
-                });
-                module.setVisible(true);  // Show the Patient Module
-            }
-        });
+    public void addAppointment(Appointment appointment) {
+        if (appointment == null) {
+            throw new IllegalArgumentException("Appointment is null");
+        } else if (hospital.findAppointmentById(appointment.getAppointmentId()) != null) {
+            throw new IllegalArgumentException("Appointment already exists");
+        }
+        hospital.addAppointment(appointment);
+        System.out.println("Appointment added successfully: " + appointment.getAppointmentId());
+    }   
 
-        JButton doctorButton = createMenuButton("Doctor", "Click to enter Doctor Module");
-        doctorButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                setVisible(false);
-                DoctorModule module = new DoctorModule(hospitalService);
-        
-                // When the patient module is closed, make the main menu visible again
-                module.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent we) {
-                        setVisible(true);  // Make the main menu visible again when the module is closed
-                    }
-                });
-                module.setVisible(true);  // Show the Patient Module
-            }
-        });
+    public void removeAppointment(Appointment appointment) {
+        if (appointment == null) {
+            throw new IllegalArgumentException("Appointment is null");
+        }
+        if(!hospital.getAllAppointments().contains(appointment))throw new IllegalArgumentException("Appointment cannot be found");
+        hospital.removeAppointment(appointment);
+        System.out.println("Appointment removed successfully: " + appointment.getAppointmentId());
+    }   
 
-        JButton nurseButton = createMenuButton("Nurse", "Click to enter Nurse Module");
-        nurseButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                setVisible(false);
-                NurseModule module = new NurseModule(hospitalService);
-        
-                // When the patient module is closed, make the main menu visible again
-                module.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent we) {
-                        setVisible(true);  // Make the main menu visible again when the module is closed
-                    }
-                });
-                module.setVisible(true);  // Show the Patient Module
-            }
-        });
-
-        JButton departmentButton = createMenuButton("Department", "Click to enter Department Module");
-        departmentButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                setVisible(false);
-                DepartmentModule module = new DepartmentModule(hospitalService);
-        
-                // When the patient module is closed, make the main menu visible again
-                module.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent we) {
-                        setVisible(true);  // Make the main menu visible again when the module is closed
-                    }
-                });
-                module.setVisible(true);  // Show the Patient Module
-            }
-        });
-        
-        // Add buttons to menu panel
-        menuPanel.add(patientButton);
-        menuPanel.add(appointmentButton);
-        menuPanel.add(medicalRecordButton);
-        menuPanel.add(doctorButton);
-        menuPanel.add(nurseButton);
-        menuPanel.add(departmentButton);
+    public void findAppointmentById(Appointment appointment){
+        if (appointment == null || appointment.getAppointmentId() == null) {
+            throw new IllegalArgumentException("Appointment ID is null");
+        }
+        hospital.findAppointmentById(appointment.getAppointmentId());
     }
-    
-    private JButton createMenuButton(String text, String tooltip) {
-        JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.BOLD, 16));
-        button.setToolTipText(tooltip);
-        button.setFocusPainted(false);
-        
-        // Style the button
-        button.setBackground(new Color(70, 130, 180)); // Steel blue
-        button.setForeground(Color.WHITE);
-        button.setBorder(BorderFactory.createRaisedBevelBorder());
-        button.setPreferredSize(new Dimension(150, 100));
-        
-        // Add hover effect
-        button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(new Color(30, 100, 150)); // Darker blue
-            }
-            
-            @Override
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(new Color(70, 130, 180)); // Steel blue
-            }
-        });
-        
-        // Add action listener
-        
-        
-        return button;
-    }
-    
-   
-    
 
-    
-    // Main method for testing
-    public static void main(String[] args) {
-        // Create a sample hospital for testing
-        Hospital sampleHospital = new Hospital(
-            "City General Hospital",
-            "123 Healthcare Avenue, Medical District",
-            "(555) 123-4567",
-            "info@citygeneralhospital.com"
-        );
-        
-        // Run the UI
-        SwingUtilities.invokeLater(() -> {
-            new HospitalManagementUI(sampleHospital);
-        });
+    public List<Appointment> viewAllAppointments() {
+        return new ArrayList<>(hospital.getAllAppointments());
+    }
+
+    public void addMedicalRecord(MedicalRecord record) {
+        if (record == null) {
+            throw new IllegalArgumentException("Medical record is null");
+        } else if (hospital.findMedicalRecordById(record.getRecordId()) != null) {
+            throw new IllegalArgumentException("Medical record already exists");
+        }
+        hospital.addMedicalRecord(record);
+        System.out.println("Medical record added successfully: " + record.getRecordId());
+    }
+
+    public void removeMedicalRecord(MedicalRecord record) {
+        if (record == null) {
+            throw new IllegalArgumentException("Medical record is null");
+        }
+        if(!hospital.getAllMedicalRecords().contains(record))throw new IllegalArgumentException("Record cannot be found");
+        hospital.removeMedicalRecord(record);
+        System.out.println("Medical record removed successfully: " + record.getRecordId());
+    }
+
+    public MedicalRecord findMedicalRecordById(String recordID){
+        if (recordID == null) {
+            throw new IllegalArgumentException("Record ID is null");
+        }
+        return hospital.findMedicalRecordById(recordID);
+    }
+
+    public List<MedicalRecord> viewAllMedicalRecords() {
+        return new ArrayList<>(hospital.getAllMedicalRecords());
     }
 }
