@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
@@ -59,8 +60,6 @@ public class AddPatientForm extends JFrame {
         idField = new JTextField();
         idField.setPreferredSize(new Dimension(200, 30));
         idField.setFont(new Font("Arial", Font.PLAIN, 15));
-        // Generate a default ID for convenience
-        idField.setText("P" + (hospitalService.viewAllPatients().size() + 1));
 
         phoneField = new JTextField();
         phoneField.setPreferredSize(new Dimension(200, 30));
@@ -226,9 +225,6 @@ public class AddPatientForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isValidForm()) {
-                    if (idField.getText().trim().isEmpty()) {
-                        idField.setText("P" + (hospitalService.viewAllPatients().size() + 1));
-                    }
 
                     Patient newPatient = new Patient(
                         idField.getText(),
