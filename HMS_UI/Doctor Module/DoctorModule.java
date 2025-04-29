@@ -48,7 +48,7 @@ public class DoctorModule extends JFrame {
         headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         
         // Hospital name
-        doctorTitleLabel = new JLabel("Patient Module");
+        doctorTitleLabel = new JLabel("Doctor Module");
         doctorTitleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         doctorTitleLabel.setHorizontalAlignment(JLabel.CENTER);
         
