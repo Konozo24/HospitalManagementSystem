@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -44,7 +45,8 @@ public class ViewMedicalRecord extends JDialog {
         filterPanel.add(filterField);
 
         JButton refreshButton = new JButton("Refresh");
-        refreshButton.addActionListener(e -> loadMedicalRecords());
+        refreshButton.addActionListener(e -> {loadMedicalRecords();
+            filterField.setText("");});
         filterPanel.add(refreshButton);
 
         add(filterPanel, BorderLayout.NORTH);
