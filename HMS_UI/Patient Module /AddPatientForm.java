@@ -1,11 +1,10 @@
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 
 public class AddPatientForm extends JFrame {
 
@@ -61,7 +60,7 @@ public class AddPatientForm extends JFrame {
         idField.setPreferredSize(new Dimension(200, 30));
         idField.setFont(new Font("Arial", Font.PLAIN, 15));
         // Generate a default ID for convenience
-        idField.setText("P" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+        idField.setText("P" + (hospitalService.viewAllPatients().size() + 1));
 
         phoneField = new JTextField();
         phoneField.setPreferredSize(new Dimension(200, 30));
@@ -228,7 +227,7 @@ public class AddPatientForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (isValidForm()) {
                     if (idField.getText().trim().isEmpty()) {
-                        idField.setText("P" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+                        idField.setText("P" + (hospitalService.viewAllPatients().size() + 1));
                     }
 
                     Patient newPatient = new Patient(
@@ -338,7 +337,7 @@ public class AddPatientForm extends JFrame {
 
     private void clearForm() {
         nameField.setText("");
-        idField.setText("P" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+        idField.setText("P" + (hospitalService.viewAllPatients().size() + 1));
         addressArea.setText("");
         phoneField.setText("");
         emailField.setText("");
