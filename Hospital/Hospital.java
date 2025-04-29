@@ -29,9 +29,7 @@ public class Hospital{
         this.appointments = new ArrayList<>();
         this.medicalRecords = new ArrayList<>();
 
-        addPatient(new Patient("001", "John Doe", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'F', "A+", "2000-200-200", "200-2301-231", "Hello"));
-        addDoctor(new Doctor("0012", "Lebron", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'M', 2500.00, "2025-1-1", "Doctor", "SPM", "Cardiology", 5));
-        
+    
     }
 
     // setter and getter
@@ -164,7 +162,7 @@ public class Hospital{
     }
     public Patient findPatientById(String patientId){
         for(Patient d : patients){
-            if(d.getId().equals(patientId)){
+            if(d.getPatientId().equals(patientId)){
                 return d;
             }
         }
@@ -231,14 +229,19 @@ public class Hospital{
             return "Hospital: " + name +
             "\nAddress: " + address +
             "\nContact: " + contactNumber +
-            "\nEmail: " + email +
-            "\nDepartments: " + departments.size() +
-            "\nDoctors: " + doctors.size() +
-            "\nNurses: " + nurses.size() +
-            "\nPatients: " + patients.size();
+            "\nEmail: " + email;
         } catch (Exception e) {
             return "Error hospital details";
         }
     }
-    
+
+    public void loadSampleDate(){
+        addDoctor(new Doctor("0012", "Lebron", "123 Street", "0123456789", "9876543210", "john@mail.com", "1990-01-01", 'M', 2500.00, "2025-1-1", "Doctor", "SPM", "Cardiology", 5));
+        addDepartment(new Department("D1", "Cardiology", "0193481934", "Lebron"));
+        addDepartment(new Department("D2", "General Medicine", "0193481934", "Lebron"));
+        addDepartment(new Department("D3", "Neurology", "0193481934", "Lebron"));
+        addDepartment(new Department("D4", "Orthopedics", "0193481934", "Lebron"));
+        addDepartment(new Department("D5", "Pediatrics", "0193481934", "Lebron"));
+        addDepartment(new Department("D6", "Surgery", "0193481934", "Lebron"));
+    }
 }
