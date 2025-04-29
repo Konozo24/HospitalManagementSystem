@@ -1,4 +1,4 @@
-package Assignment;
+
 
 import java.awt.*;
 import javax.swing.*;
@@ -132,9 +132,6 @@ public class AddDoctorForm extends JFrame {
 
         gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Date of birth : "), gbc);
         gbc.gridx = 1; formPanel.add(dateOfBirthField, gbc);
-
-        gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Employee ID : "), gbc);
-        gbc.gridx = 1; formPanel.add(employeeIdField, gbc);
 
         gbc.gridx = 0; gbc.gridy = ++row; formPanel.add(new JLabel("Salary : "), gbc);
         gbc.gridx = 1; formPanel.add(salaryField, gbc);
