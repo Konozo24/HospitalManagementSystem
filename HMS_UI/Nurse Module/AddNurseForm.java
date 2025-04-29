@@ -1,7 +1,8 @@
-
+package Assignment;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import java.util.List;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -123,8 +124,13 @@ public class AddNurseForm extends JFrame {
         genderPanel.add(MaleButton);
         genderPanel.add(FemaleButton);
 
-        String[] departmentTypes = {"General Medicine", "Cardiology", "Neurology", "Orthopedics", "Pediatrics", "Surgery"};
-        departmentComboBox = new JComboBox<>(departmentTypes);
+        // Convert List<Department> to String[] containing department names
+        List<Department> departments = hospitalService.viewAllDepartments();
+        String[] departmentNames = departments.stream()
+        .map(Department::getName)  // Replace with your method for getting the department name
+        .toArray(String[]::new);
+    
+        departmentComboBox = new JComboBox<>(departmentNames);
         departmentComboBox.setPreferredSize(new Dimension(200, 30));
         departmentComboBox.setFont(new Font("Arial", Font.PLAIN, 15));
 
@@ -402,6 +408,5 @@ public class AddNurseForm extends JFrame {
     }
 
 }
-
 
 
