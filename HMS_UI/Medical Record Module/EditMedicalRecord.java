@@ -1,7 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import javax.swing.*;
 
 public class EditMedicalRecord extends JDialog {
     private JComboBox<String> recordIdComboBox;
@@ -23,14 +23,37 @@ public class EditMedicalRecord extends JDialog {
             recordIdComboBox.addItem(record.getRecordId());
         }
 
-        patientIdField = new JTextField();
-        doctorIdField = new JTextField();
-        dateField = new JTextField();
-        diagnosisField = new JTextField();
-        treatmentField = new JTextField();
-        prescriptionField = new JTextField();
-        notesField = new JTextField();
-        followUpDateField = new JTextField();
+        patientIdField = new JTextField(30);
+        patientIdField.setPreferredSize(new Dimension(200, 30));
+        patientIdField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        doctorIdField = new JTextField(30);
+        doctorIdField.setPreferredSize(new Dimension(200, 30));
+        doctorIdField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        dateField = new JTextField(30);
+        dateField.setPreferredSize(new Dimension(200, 30));
+        dateField.setFont(new Font("Arial", Font.PLAIN, 15));
+        
+        diagnosisField = new JTextField(30);
+        diagnosisField.setPreferredSize(new Dimension(200, 30));
+        diagnosisField.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        treatmentField = new JTextField(30);
+        treatmentField.setPreferredSize(new Dimension(200, 30));
+        treatmentField.setFont(new Font("Arial", Font.PLAIN, 15));
+        
+        prescriptionField = new JTextField(30);
+        prescriptionField.setPreferredSize(new Dimension(200, 30));
+        prescriptionField.setFont(new Font("Arial", Font.PLAIN, 15));
+        
+        notesField = new JTextField(30);
+        notesField.setPreferredSize(new Dimension(200, 30));
+        notesField.setFont(new Font("Arial", Font.PLAIN, 15));
+        
+        followUpDateField = new JTextField(30);
+        followUpDateField.setPreferredSize(new Dimension(200, 30));
+        followUpDateField.setFont(new Font("Arial", Font.PLAIN, 15));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
