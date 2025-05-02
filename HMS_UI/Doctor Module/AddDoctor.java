@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.util.List;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class AddDoctorForm extends JFrame {
 
@@ -253,6 +255,21 @@ public class AddDoctorForm extends JFrame {
             return false;
             }
         
+        // Regex format to check data validity (YYYY-MM-DD)
+        if (!dateOfBirthField.getText().trim().matches("\\d{4}-\\d{2}-\\d{2}") && !joiningDateField.getText().trim().matches("\\d{4}-\\d{2}-\\d{2}")) {
+            JOptionPane.showMessageDialog(this, "Date must be in the format YYYY-MM-DD.", "Invalid Date Format", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        // Check if the date is a valid calendar date
+        try {
+            LocalDate.parse(dateOfBirthField.getText().trim()); // throws exception if date is invalid
+            LocalDate.parse(joiningDateField.getText().trim());
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Invalid date. Please enter a correct date in the format YYYY-MM-DD.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }    
+
         return true;
        
     }
