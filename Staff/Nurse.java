@@ -1,20 +1,23 @@
-package Assignment;
+
 
 class Nurse extends MedicalProfessional {
     private String assignedDoctor;
     private String shift;
     private String duties;
+    private static int nurseNumber = 1;
     
     public Nurse(String id, String name, String address, String phoneNumber, 
                 String email, String emergencyContact, String dateOfBirth, 
-                char gender, String employeeId, double salary, String joinDate, 
+                char gender, double salary, String joinDate, 
                 String department, String qualification, String assignedDoctor,
                 String shift, String duties) {
         super(id, name, address, phoneNumber, email, emergencyContact, dateOfBirth, 
-              gender, employeeId, salary, joinDate, department, qualification);
+              gender, "N" + nurseNumber, salary, joinDate, department, qualification);
         this.assignedDoctor = assignedDoctor;
         this.shift = shift;
         this.duties = duties;
+
+        nurseNumber++;
     }
 
     // Getters and Setters
