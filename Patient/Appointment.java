@@ -1,6 +1,6 @@
-package Assignment;
 
-class Appointment {
+
+public class Appointment {
     private String appointmentId;
     private Patient patient;
     private Doctor doctor;
