@@ -1,4 +1,4 @@
-package Assignment;
+
 import java.util.ArrayList;
 
 class Department {
