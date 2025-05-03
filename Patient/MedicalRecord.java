@@ -1,4 +1,4 @@
-package Assignment;
+
 
 class MedicalRecord {
     private String recordId;
