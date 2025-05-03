@@ -41,7 +41,7 @@ public class EditAppointmentDialog extends JDialog {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         this.add(mainPanel);
-        this.setVisible(true);
+        loadAppointmentDetails();
     }
 
     private JPanel createFormPanel(){
@@ -184,11 +184,11 @@ public class EditAppointmentDialog extends JDialog {
                     appointment.setPurpose(purposeArea.getText().trim());
                     appointment.setStatus((String) statusComboBox.getSelectedItem());
 
-                    JOptionPane.showMessageDialog(EditAppointmentDialog.this, "Appointment updated successfully!");
+                    JOptionPane.showMessageDialog(null, "Appointment updated successfully!");
                     onUpdate.run(); // Refresh the UI
                     dispose();
                 } catch (Exception ex){
-                    JOptionPane.showMessageDialog(EditAppointmentDialog.this, "Error: " + ex.getMessage(), "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Invalid Input", JOptionPane.ERROR_MESSAGE);
                 }
     
             }
@@ -209,10 +209,11 @@ public class EditAppointmentDialog extends JDialog {
 
     private boolean isValidForm() {
         String dateText = dateField.getText().trim();
+        String timeText = timeField.getText().trim();
 
         if (
             dateText.isEmpty() ||
-            timeField.getText().trim().isEmpty() ||
+            timeText.isEmpty() ||
             consultationRoomField.getText().trim().isEmpty() ||
             purposeArea.getText().trim().isEmpty() ||
             patientComboBox.getSelectedIndex() == -1 ||
@@ -227,6 +228,11 @@ public class EditAppointmentDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Date must be in the format YYYY-MM-DD.", "Invalid Date Format", JOptionPane.WARNING_MESSAGE);
             return false;
         }
+
+        if (!timeText.matches("^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$")) {
+            JOptionPane.showMessageDialog(this, "Time must be in the format HH:MM.", "Invalid Time Format", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
         
         // Check if the date is a valid calendar date
         try {
@@ -237,6 +243,15 @@ public class EditAppointmentDialog extends JDialog {
         }
         
         return true;
+    }
+    private void loadAppointmentDetails(){
+        patientComboBox.setSelectedItem(appointment.getPatient());
+        doctorComboBox.setSelectedItem(appointment.getDoctor());
+        dateField.setText(appointment.getDate());
+        timeField.setText(appointment.getTime());
+        consultationRoomField.setText(appointment.getConsultationRoom());
+        purposeArea.setText(appointment.getPurpose());
+        statusComboBox.setSelectedItem(appointment.getStatus());
     }
 
 }
