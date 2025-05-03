@@ -112,6 +112,7 @@ public class EditAppointment extends JFrame {
                         tableModel.setRowCount(0);
                         loadAllAppointments(tableModel);
                     }).setVisible(true);
+                    selectedAppointment = null;
                 } else {
                     JOptionPane.showMessageDialog(formPanel, "Please select an appointment to edit.");
                 }
@@ -144,7 +145,7 @@ public class EditAppointment extends JFrame {
         new Font("Arial", Font.BOLD, 14)
         ));
 
-        String[] col = {"ID", "Patient", "Doctor", "Date", "Time", "Consulation Room", "Purpose", "Status", "Object"};
+        String[] col = {"ID", "Patient", "Doctor", "Date", "Time", "Consultation Room", "Purpose", "Status", "Object"};
         tableModel = new DefaultTableModel(col, 0){
             @Override
             public boolean isCellEditable(int row, int column){
@@ -185,6 +186,7 @@ public class EditAppointment extends JFrame {
                 }
             }
         });
+
         return formPanel;
     }   
 
