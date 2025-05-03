@@ -1,4 +1,5 @@
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,7 +8,7 @@ public class DepartmentModule extends JFrame {
     private HospitalService hospitalService;
     private JPanel mainPanel, headerPanel, menuPanel;
     private JLabel patientTitleLabel;
-
+    
     public DepartmentModule(HospitalService hospitalService){
         this.hospitalService = hospitalService;
 
