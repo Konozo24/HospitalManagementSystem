@@ -1,4 +1,4 @@
-package Assignment;
+
 
 // Abstract class for medical professionals (doctors and nurses)
 abstract class MedicalProfessional extends Person {
