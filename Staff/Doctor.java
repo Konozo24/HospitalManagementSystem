@@ -1,4 +1,4 @@
-package Assignment;
+
 import java.util.ArrayList;
 
 public class Doctor extends MedicalProfessional {
@@ -19,6 +19,7 @@ public class Doctor extends MedicalProfessional {
         this.yearsOfExperience = yearsOfExperience;
         this.patientList = new ArrayList<>();
         this.appointments = new ArrayList<>();
+        doctorNumber++;
     }
 
     // Getters and Setters
