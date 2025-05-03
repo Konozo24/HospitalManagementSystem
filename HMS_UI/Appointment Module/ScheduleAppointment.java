@@ -16,6 +16,8 @@ public class ScheduleAppointment extends JFrame {
     private HospitalService hospitalService;
     private JButton submitButton, clearButton, backButton;
 
+
+    // Constructor to initialize the schedule appointment window
     public ScheduleAppointment(HospitalService hospitalService){
         this.hospitalService = hospitalService;
         this.setTitle("Schedule Appointment");
@@ -44,6 +46,7 @@ public class ScheduleAppointment extends JFrame {
 
     }
 
+    // Configure the form fields for appointment details
     private JPanel createFormPanel(){
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -109,7 +112,7 @@ public class ScheduleAppointment extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        formPanel.add(new JLabel("Consulation Room: "), gbc);
+        formPanel.add(new JLabel("Consultation Room: "), gbc);
         
         gbc.gridx = 1;
         formPanel.add(consultationRoomField, gbc);
@@ -157,6 +160,7 @@ public class ScheduleAppointment extends JFrame {
         backButton.setPreferredSize(new Dimension(100, 35));
         backButton.setFont(new Font("Arial", Font.BOLD, 15));
 
+        // Submit button logic
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent e){
@@ -176,7 +180,8 @@ public class ScheduleAppointment extends JFrame {
                 }
             }
         });
-    
+        
+        // Clear form data
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -198,13 +203,14 @@ public class ScheduleAppointment extends JFrame {
         return buttonPanel;
     }
 
-
+    // Validate the form fields for correct outputs formatting
     private boolean isValidForm() {
         String dateText = dateField.getText().trim();
+        String timeText = timeField.getText().trim();
 
         if (
             dateText.isEmpty() ||
-            timeField.getText().trim().isEmpty() ||
+            timeText.isEmpty() ||
             consultationRoomField.getText().trim().isEmpty() ||
             purposeArea.getText().trim().isEmpty() ||
             patientComboBox.getSelectedIndex() == -1 ||
@@ -219,6 +225,11 @@ public class ScheduleAppointment extends JFrame {
             JOptionPane.showMessageDialog(this, "Date must be in the format YYYY-MM-DD.", "Invalid Date Format", JOptionPane.WARNING_MESSAGE);
             return false;
         }
+
+        if (!timeText.matches("^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$")) {
+            JOptionPane.showMessageDialog(this, "Time must be in the format HH:MM.", "Invalid Time Format", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
         
         // Check if the date is a valid calendar date
         try {
@@ -231,6 +242,7 @@ public class ScheduleAppointment extends JFrame {
         return true;
     }
 
+    // Reset to default form
     private void clearForm(){
         patientComboBox.setSelectedIndex(0);
         doctorComboBox.setSelectedIndex(0);
