@@ -116,9 +116,12 @@ public class EditDoctorForm extends JFrame {
             return;
         }
 
+
         Doctor doctor = hospitalService.findDoctorById(doctorId);
         if (doctor != null) {
             // Populate fields with doctor data
+
+
             idField.setText(doctor.getId());
             nameField.setText(doctor.getName());
             phoneField.setText(doctor.getPhoneNumber());
@@ -152,6 +155,11 @@ public class EditDoctorForm extends JFrame {
         Doctor doctor = hospitalService.findDoctorById(doctorId);
         if (doctorId.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Doctor ID cannot be empty.", "Input Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!DateValidator.isValidDate(joiningDateField.getText())) {
+            JOptionPane.showMessageDialog(this, "Invalid Date of Birth format. Please use YYYY-MM-DD.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
