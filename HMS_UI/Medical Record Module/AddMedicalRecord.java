@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
@@ -7,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddMedicalRecord extends JFrame {
-    private JTextField patientIdField, doctorIdField, dateField, diagnosisField, treatmentField, prescriptionField, notesField, followUpDateField, idField;
+    private JTextField patientIdField, doctorIdField, dateField, diagnosisField, treatmentField, prescriptionField, notesField, followUpDateField;
     private JButton submitButton, clearButton, backButton;
     private HospitalService hospitalService;
 
@@ -46,44 +47,13 @@ public class AddMedicalRecord extends JFrame {
         ));
 
         patientIdField = new JTextField(30);
-        patientIdField.setPreferredSize(new Dimension(200, 30));
-        patientIdField.setFont(new Font("Arial", Font.PLAIN, 15));
-
         doctorIdField = new JTextField(30);
-        doctorIdField.setPreferredSize(new Dimension(200, 30));
-        doctorIdField.setFont(new Font("Arial", Font.PLAIN, 15));
-
         dateField = new JTextField(30);
-        dateField.setPreferredSize(new Dimension(200, 30));
-        dateField.setFont(new Font("Arial", Font.PLAIN, 15));
-        
         diagnosisField = new JTextField(30);
-        diagnosisField.setPreferredSize(new Dimension(200, 30));
-        diagnosisField.setFont(new Font("Arial", Font.PLAIN, 15));
-
         treatmentField = new JTextField(30);
-        treatmentField.setPreferredSize(new Dimension(200, 30));
-        treatmentField.setFont(new Font("Arial", Font.PLAIN, 15));
-        
         prescriptionField = new JTextField(30);
-        prescriptionField.setPreferredSize(new Dimension(200, 30));
-        prescriptionField.setFont(new Font("Arial", Font.PLAIN, 15));
-        
         notesField = new JTextField(30);
-        notesField.setPreferredSize(new Dimension(200, 30));
-        notesField.setFont(new Font("Arial", Font.PLAIN, 15));
-        
         followUpDateField = new JTextField(30);
-        followUpDateField.setPreferredSize(new Dimension(200, 30));
-        followUpDateField.setFont(new Font("Arial", Font.PLAIN, 15));
-        idField = new JTextField(30); // Added idField
-        idField.setEditable(true); // Ensure the field is editable
-
-        // Set default value for idField based on existing records
-        idField = new JTextField();
-        idField.setPreferredSize(new Dimension(200, 30));
-        idField.setFont(new Font("Arial", Font.PLAIN, 15));        
-        idField.setText("MR" + (hospitalService.viewAllMedicalRecords().size() + 1));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -92,54 +62,48 @@ public class AddMedicalRecord extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        formPanel.add(new JLabel("Record ID: "), gbc); // Added label for idField
-        gbc.gridx = 1;
-        formPanel.add(idField, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
         formPanel.add(new JLabel("Patient ID: "), gbc);
         gbc.gridx = 1;
         formPanel.add(patientIdField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         formPanel.add(new JLabel("Doctor ID: "), gbc);
         gbc.gridx = 1;
         formPanel.add(doctorIdField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         formPanel.add(new JLabel("Date (YYYY-MM-DD): "), gbc);
         gbc.gridx = 1;
         formPanel.add(dateField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         formPanel.add(new JLabel("Diagnosis: "), gbc);
         gbc.gridx = 1;
         formPanel.add(diagnosisField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 4;
         formPanel.add(new JLabel("Treatment: "), gbc);
         gbc.gridx = 1;
         formPanel.add(treatmentField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 5;
         formPanel.add(new JLabel("Prescription: "), gbc);
         gbc.gridx = 1;
         formPanel.add(prescriptionField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 6;
         formPanel.add(new JLabel("Notes: "), gbc);
         gbc.gridx = 1;
         formPanel.add(notesField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 7;
         formPanel.add(new JLabel("Follow-Up Date (YYYY-MM-DD): "), gbc);
         gbc.gridx = 1;
         formPanel.add(followUpDateField, gbc);
@@ -186,7 +150,6 @@ public class AddMedicalRecord extends JFrame {
 
     private void addMedicalRecord() {
         try {
-            String recordId = idField.getText().isEmpty() ? "MR" + (hospitalService.viewAllMedicalRecords().size() + 1) : idField.getText();
             String patientId = patientIdField.getText();
             String doctorId = doctorIdField.getText();
             String date = dateField.getText();
@@ -215,9 +178,6 @@ public class AddMedicalRecord extends JFrame {
                 followUpDate
             );
 
-            // Manually set the recordId if provided, otherwise use the generated one
-            newRecord.setRecordId(recordId);
-
             hospitalService.addMedicalRecord(newRecord);
             JOptionPane.showMessageDialog(this, "Medical Record added successfully!");
             clearForm();
@@ -228,7 +188,6 @@ public class AddMedicalRecord extends JFrame {
 
     private boolean isValidForm() {
         if (
-            idField.getText().trim().isEmpty() ||
             patientIdField.getText().trim().isEmpty() ||
             doctorIdField.getText().trim().isEmpty() ||
             dateField.getText().trim().isEmpty() ||
@@ -257,7 +216,6 @@ public class AddMedicalRecord extends JFrame {
     }
 
     private void clearForm() {
-        idField.setText("MR" + (hospitalService.viewAllMedicalRecords().size() + 1)); // Reset to next expected recordId
         patientIdField.setText("");
         doctorIdField.setText("");
         dateField.setText("");
