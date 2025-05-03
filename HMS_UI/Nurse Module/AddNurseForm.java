@@ -370,7 +370,7 @@ public class AddNurseForm extends JFrame {
         }
         
         // Regex format to check data validity (YYYY-MM-DD)
-        if (!dateOfBirthField.getText().trim().matches("\\d{4}-\\d{2}-\\d{2}") && !joinDateField.getText().trim().matches("\\d{4}-\\d{2}-\\d{2}")) {
+        if (!dateOfBirthField.getText().trim().matches("\\d{4}-\\d{2}-\\d{2}") || !joinDateField.getText().trim().matches("\\d{4}-\\d{2}-\\d{2}")) {
             JOptionPane.showMessageDialog(this, "Date must be in the format YYYY-MM-DD.", "Invalid Date Format", JOptionPane.WARNING_MESSAGE);
             return false;
         }
