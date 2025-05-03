@@ -122,7 +122,7 @@ public class CancelAppointment extends JFrame {
         new Font("Arial", Font.BOLD, 14)
         ));
 
-        String[] col = {"ID", "Patient", "Doctor", "Date", "Time", "Consulation Room", "Purpose", "Status", "Object"};
+        String[] col = {"ID", "Patient", "Doctor", "Date", "Time", "Consultation Room", "Purpose", "Status", "Object"};
         tableModel = new DefaultTableModel(col, 0){
             @Override
             public boolean isCellEditable(int row, int column){
@@ -188,12 +188,12 @@ public class CancelAppointment extends JFrame {
                     if (option == JOptionPane.YES_OPTION){
                         JOptionPane.showMessageDialog(null, "Appointment cancelled successfully \n", "Success", JOptionPane.INFORMATION_MESSAGE);
                         hospitalService.removeAppointment(selectedAppointment);
-                        // Remove the row from tdhe table model
+                        // Remove the row from the table model
                         int selectedRow = appointmentTable.getSelectedRow();
                         if (selectedRow >= 0) {
                             tableModel.removeRow(selectedRow);
                         }
-
+                        selectedAppointment = null;
                         // Reset selection
                         
 
