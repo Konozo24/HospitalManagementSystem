@@ -29,7 +29,7 @@ public class EditNurseForm extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
-        JLabel titleLabel = new JLabel("Edit Appointment Nurse");
+        JLabel titleLabel = new JLabel("Edit Nurse Form");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0,0,15,0));
